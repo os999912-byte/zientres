@@ -75,7 +75,8 @@ try{
 .swipe-track{display:flex;width:300%;transition:transform .32s cubic-bezier(.4,0,.2,1)}
 .swipe-page{width:33.333%;flex-shrink:0}
 #swipe-page-main{display:flex;flex-direction:column;height:calc(100svh - 52px);overflow:hidden}
-body{background:var(--bg);color:var(--text);font-family:'Roboto Condensed',sans-serif;min-height:100vh;padding-bottom:60px;overflow-x:hidden}
+html{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:'Roboto Condensed',sans-serif;height:100%;width:100%;position:fixed;top:0;left:0;overflow:hidden;overscroll-behavior:none;padding-bottom:0}
 
 /* ── BACKGROUND PATTERN (main screen only) ── */
 .bg-pattern{display:none !important}
@@ -835,8 +836,8 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 <div id="global-header" class="global-header-fade" style="background:var(--bg);padding:0;display:flex;align-items:stretch;justify-content:space-between;border-bottom:none;position:sticky;top:0;z-index:450;overflow:visible;height:52px">
   <!-- Профиль слева -->
   <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;position:relative;z-index:1">
-    <button class="settings-btn" id="top-profile-btn" onclick="bnavSwitch('profile')" title="Профиль" style="width:36px;height:36px">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    <button class="settings-btn tg-avatar-slot" id="top-profile-btn" onclick="bnavSwitch('profile')" title="Профиль" style="width:36px;height:36px;overflow:hidden">
+      <svg class="tg-avatar-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
     </button>
   </div>
   <!-- Невидимая зона — 5 тапов открывают админку -->
@@ -946,8 +947,8 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 
     <!-- User info card -->
     <div style="background:var(--surf2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;position:relative;overflow:visible">
-      <div style="width:52px;height:52px;border-radius:50%;background:var(--surf2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--acc2)">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      <div class="tg-avatar-slot" style="width:52px;height:52px;border-radius:50%;background:var(--surf2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--acc2);overflow:hidden">
+        <svg class="tg-avatar-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
       </div>
       <div style="flex:1;min-width:0;padding-right:36px">
         <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:1.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:uppercase" id="profile-name" data-i18n="player_default">ИГРОК</div>
@@ -2831,6 +2832,7 @@ function bnavSwitch(tab) {
 }
 
 async function _fillProfilePanel() {
+  applyTelegramAvatar();
   const pop = document.getElementById('profile-stats-pop');
   if(pop) pop.style.display='none';
   const tg = window.Telegram?.WebApp?.initDataUnsafe;
@@ -2982,6 +2984,50 @@ function copyTonWalletAddress(){
 // если что-либо ДРУГОЕ в общем запуске бросит ошибку (Telegram API, сокет, трекинг —
 // всё это может падать вне Telegram), это не должно блокировать кошелёк. try/catch —
 // дополнительная защита от неожиданных исключений именно в этом модуле.
+// ── АВАТАРКА TELEGRAM ──
+// Если приложение открыто внутри Telegram и у пользователя есть фото профиля —
+// подставляем его вместо стандартной иконки-заглушки, во всех отмеченных местах
+// (шапка игры + карточка в профиле). Если не в Telegram или фото недоступно/не
+// загрузилось — просто остаётся текущая иконка-заглушка, ничего не ломается.
+function applyTelegramAvatar(){
+  try{
+    const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
+    const photoUrl = user?.photo_url;
+    if(!photoUrl) return;
+    document.querySelectorAll('.tg-avatar-slot').forEach(slot=>{
+      const icon = slot.querySelector('.tg-avatar-icon');
+      let img = slot.querySelector('.tg-avatar-img');
+      if(!img){
+        img = document.createElement('img');
+        img.className = 'tg-avatar-img';
+        img.referrerPolicy = 'no-referrer';
+        img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:none';
+        slot.appendChild(img);
+      }
+      img.onload = ()=>{ if(icon) icon.style.display='none'; img.style.display='block'; };
+      img.onerror = ()=>{ img.style.display='none'; if(icon) icon.style.display=''; };
+      img.src = photoUrl;
+    });
+  }catch(e){}
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', applyTelegramAvatar);
+}else{
+  applyTelegramAvatar();
+}
+
+// ── БЛОКИРОВКА ВЕРТИКАЛЬНЫХ СВАЙПОВ (Telegram Mini App) ──
+// Отключает нативный жест Telegram "потянуть вниз — свернуть приложение" глобально,
+// а не только в отдельных панелях — иначе с главного экрана экран можно утянуть свайпом.
+function disableTgVerticalSwipes(){
+  try{ window.Telegram?.WebApp?.disableVerticalSwipes?.(); }catch(e){}
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', disableTgVerticalSwipes);
+}else{
+  disableTgVerticalSwipes();
+}
+
 function bootTonConnect(){
   try{ initTonConnect(); }catch(e){ console.error('TonConnect init error:', e); }
 }
