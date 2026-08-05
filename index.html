@@ -321,7 +321,7 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 .inv-list{display:flex;flex-direction:column;gap:8px}
 /* plate in inventory — full-width white plate */
 .inv-plate-item{--plate-bg:#eeece4;background:var(--plate-bg);border:3px solid #1a1a1a;border-radius:7px;box-shadow:0 0 6px rgba(0,0,0,.35),0 0 16px rgba(0,0,0,.25),0 0 34px rgba(0,0,0,.18),0 0 60px rgba(0,0,0,.10);width:100%;display:flex;align-items:stretch;overflow:visible;font-family:'Rajdhani';font-weight:700;color:#111;position:relative;cursor:pointer;transition:box-shadow .15s}
-:root[data-theme="dark"] .inv-plate-item{border-color:#1a1a1a;box-shadow:0 0 6px rgba(255,255,255,.9),0 0 16px rgba(255,255,255,.6),0 0 34px rgba(255,255,255,.4),0 0 60px rgba(255,255,255,.22)}
+:root[data-theme="dark"] .inv-plate-item{border-color:#1a1a1a;box-shadow:0 0 5px rgba(255,255,255,.35),0 0 12px rgba(255,255,255,.22),0 0 22px rgba(255,255,255,.13),0 0 36px rgba(255,255,255,.07)}
 .inv-plate-item:active{box-shadow:0 2px 8px rgba(0,0,0,.4)}
 .inv-plate-del{position:absolute;top:-10px;right:4px;background:rgba(220,60,60,.85);border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;z-index:5;transition:all .15s;box-shadow:0 2px 6px rgba(200,40,40,.4)}
 .inv-plate-del:active{transform:scale(.9)}
@@ -451,6 +451,13 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 .settings-title{font-family:'Bebas Neue';font-size:17px;letter-spacing:2px;color:#111;display:flex;align-items:center}
 .settings-close{background:rgba(0,0,0,.06);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:pointer;flex-shrink:0}
 .settings-body{padding:8px 16px 32px}
+
+/* ── ЛИЦЕНЗИИ (баланс в шапке + меню) ── */
+.license-pill{display:flex;align-items:center;gap:6px;height:32px;padding:0 6px 0 8px;border-radius:16px;background:var(--btn-neutral-bg);border:1px solid var(--btn-neutral-border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
+.license-pill:active{transform:scale(.95)}
+.license-count{font-family:'Bebas Neue';font-size:15px;letter-spacing:.5px;color:var(--text)}
+.license-plus{width:22px;height:22px;border-radius:50%;background:var(--accent-bg-12);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.license-sheet{background:var(--bg);border-radius:20px 20px 0 0;border:1px solid var(--border);border-bottom:none;width:100%;max-width:500px;min-height:62vh;animation:slideUp .28s cubic-bezier(.25,.46,.45,.94)}
 
 /* ── TON CONNECT ── */
 .ton-connect-btn{
@@ -834,10 +841,24 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 
 <!-- Компактная строка: профиль слева, меню справа -->
 <div id="global-header" class="global-header-fade" style="background:var(--bg);padding:0;display:flex;align-items:stretch;justify-content:space-between;border-bottom:none;position:sticky;top:0;z-index:450;overflow:visible;height:52px">
-  <!-- Профиль слева -->
+  <!-- Профиль слева + баланс лицензий -->
   <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;position:relative;z-index:1">
     <button class="settings-btn tg-avatar-slot" id="top-profile-btn" onclick="bnavSwitch('profile')" title="Профиль" style="width:36px;height:36px;overflow:hidden">
       <svg class="tg-avatar-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    </button>
+    <button class="license-pill" onclick="openLicenseMenu()" title="Лицензии">
+      <svg width="22" height="15" viewBox="0 0 64 42" fill="none">
+        <defs><linearGradient id="licCardGrad" x1="0" y1="0" x2="64" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#dbe8f7"/></linearGradient></defs>
+        <path d="M4 3h48l9 9v24l-6 6H10l-6-6V9z" fill="url(#licCardGrad)" stroke="#0098EA" stroke-width="1.6"/>
+        <path d="M7 27c3 0 6 0 9-4 4-6 9-11 15-11 6 0 10 4 14 8 4 4 7 5 11 5" stroke="#1E88E5" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="17" cy="29.5" r="3.4" stroke="#1E88E5" stroke-width="1.5" fill="#fff"/>
+        <circle cx="47" cy="29.5" r="3.4" stroke="#1E88E5" stroke-width="1.5" fill="#fff"/>
+        <path d="M32 10l3 6 6 2-6 2-3 6-3-6-6-2 6-2z" fill="#0098EA"/>
+      </svg>
+      <span class="license-count" id="license-balance-count">0</span>
+      <span class="license-plus">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      </span>
     </button>
   </div>
   <!-- Невидимая зона — 5 тапов открывают админку -->
@@ -1114,6 +1135,13 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
   </div>
 </div>
 
+<!-- ЛИЦЕНЗИИ: выплывающее снизу меню, пока пустое, без шапки -->
+<div class="settings-overlay" id="license-overlay" onclick="if(event.target===this)closeLicenseMenu()">
+  <div class="license-sheet">
+    <div class="settings-body"></div>
+  </div>
+</div>
+
 <!-- БАЗА НОМЕРОВ → ПОИСК: отдельный полноэкранный раздел, пока пустой -->
 <div class="events-overlay" id="plate-db-search-overlay">
   <div class="bg-pattern-inner"><div class="bg-pattern-dots"></div><div class="bg-pattern-strokes"></div><div class="bg-pattern-strokes2"></div><div class="bg-pattern-mid"></div><div class="bg-pattern-wave"></div></div>
@@ -1121,7 +1149,7 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
     <div class="events-title"><span data-i18n="plate_db_search_title">ПОИСК</span></div>
   </div>
   <div class="events-body" style="padding:16px 14px 40px;position:relative;z-index:1">
-   <div style="min-height:100%;display:flex;flex-direction:column;justify-content:center">
+   <div style="display:flex;flex-direction:column;padding-top:6px">
     <div class="search-control-row">
       <button class="events-back-btn" onclick="closePlateDbSearchOverlay()" title="Назад">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
@@ -2899,6 +2927,37 @@ async function _fillProfilePanel() {
 let tonConnectUIInstance = null;
 let tonWalletFullAddress = '';
 
+// ═══════════════════════════════════════════════════════════
+//  ЛИЦЕНЗИИ (баланс в шапке)
+// ═══════════════════════════════════════════════════════════
+// Лицензия — будущий NFT для минта номерного знака. Коллекция лицензий будет жить
+// в блокчейне TON; именно по ней в будущем будет пополняться/тратиться баланс.
+// Пока коллекция не задеплоена, fetchLicenseBalance — заглушка: хранит значение
+// локально по адресу кошелька, чтобы интерфейс уже был полностью готов к подключению
+// реального ончейн-запроса (одна точка замены, остальной код трогать не придётся).
+let licenseBalance = 0;
+
+function updateLicenseBalanceUI(){
+  const el = document.getElementById('license-balance-count');
+  if(el) el.textContent = licenseBalance;
+}
+
+function fetchLicenseBalance(walletAddress){
+  try{
+    const stored = localStorage.getItem('cp_license_bal_'+walletAddress);
+    return stored ? (parseInt(stored,10)||0) : 0;
+  }catch(e){ return 0; }
+}
+
+function openLicenseMenu(){
+  playClick();haptic('light');
+  document.getElementById('license-overlay')?.classList.add('show');
+}
+function closeLicenseMenu(){
+  playClick();haptic('light');
+  document.getElementById('license-overlay')?.classList.remove('show');
+}
+
 // ── ИНИЦИАЛИЗАЦИЯ ──
 // Создаёт экземпляр TonConnectUI и подписывается на изменение статуса подключения.
 // onStatusChange — это и есть встроенный механизм SDK для восстановления сессии: при
@@ -2961,11 +3020,15 @@ function updateTonWalletUI(wallet){
     if(addrEl) addrEl.textContent = friendly.slice(0,4)+'...'+friendly.slice(-4);
     btn.style.display='none';
     card.style.display='flex';
+    licenseBalance = fetchLicenseBalance(friendly);
   } else {
     tonWalletFullAddress='';
     btn.style.display='flex';
     card.style.display='none';
+    // Без подключённого кошелька лицензий существовать не может — баланс всегда сбрасывается в 0.
+    licenseBalance = 0;
   }
+  updateLicenseBalanceUI();
 }
 
 // ── КОПИРОВАНИЕ АДРЕСА ──
