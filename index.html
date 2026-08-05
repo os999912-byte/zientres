@@ -470,27 +470,12 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 .ton-connect-btn:active{transform:scale(.98);box-shadow:0 4px 12px rgba(0,152,234,.3)}
 .ton-connect-btn span{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:16px;letter-spacing:.3px;color:#fff}
 
-.ton-wallet-card{
-  display:none;align-items:center;gap:12px;
-  background:linear-gradient(135deg,#31A8FF,#0098EA);
-  border-radius:18px;padding:14px 14px 14px 12px;margin-bottom:14px;
-  box-shadow:0 8px 20px rgba(0,152,234,.3);
-}
-.ton-wallet-icon{
-  width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.16);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.ton-wallet-info{flex:1;min-width:0}
-.ton-wallet-label{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:12px;letter-spacing:.5px;color:rgba(255,255,255,.75);text-transform:uppercase}
-.ton-wallet-address{font-family:'Roboto Condensed',Arial,sans-serif;font-weight:700;font-size:15px;color:#fff;margin-top:1px;letter-spacing:.3px}
-.ton-wallet-action{
-  width:34px;height:34px;border-radius:10px;border:none;flex-shrink:0;
-  background:rgba(255,255,255,.16);color:#fff;
-  display:flex;align-items:center;justify-content:center;cursor:pointer;
-  transition:background .15s,transform .15s;padding:0;
-}
-.ton-wallet-action:active{transform:scale(.92);background:rgba(255,255,255,.28)}
-.ton-wallet-action-danger:active{background:rgba(224,80,80,.55)}
+/* ── Аватарка кошелька: заглушка / буква / своё фото ── */
+.wallet-avatar-slot{position:relative}
+.wallet-avatar-letter{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:#0098EA;background:#fff}
+#top-profile-btn .wallet-avatar-letter{font-size:15px}
+#wallet-avatar-wrap .wallet-avatar-letter{font-size:22px}
+.wallet-avatar-img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* ── БАЗА НОМЕРОВ → ПОИСК: поля ручного ввода символов ── */
 .search-char-inp{
@@ -843,8 +828,10 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 <div id="global-header" class="global-header-fade" style="background:var(--bg);padding:0;display:flex;align-items:stretch;justify-content:space-between;border-bottom:none;position:sticky;top:0;z-index:450;overflow:visible;height:52px">
   <!-- Профиль слева + баланс лицензий -->
   <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;position:relative;z-index:1">
-    <button class="settings-btn tg-avatar-slot" id="top-profile-btn" onclick="bnavSwitch('profile')" title="Профиль" style="width:36px;height:36px;overflow:hidden">
-      <svg class="tg-avatar-icon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    <button class="settings-btn wallet-avatar-slot" id="top-profile-btn" onclick="bnavSwitch('profile')" title="Профиль" style="width:36px;height:36px;overflow:hidden">
+      <svg class="wallet-avatar-placeholder" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+      <span class="wallet-avatar-letter" style="display:none"></span>
+      <img class="wallet-avatar-img" style="display:none" alt="">
     </button>
     <button class="license-pill" onclick="openLicenseMenu()" title="Лицензии">
       <svg width="22" height="15" viewBox="0 0 64 42" fill="none">
@@ -966,44 +953,31 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
   </div>
   <div class="events-body" style="padding:16px 14px 80px;position:relative;z-index:1">
 
-    <!-- User info card -->
-    <div style="background:var(--surf2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;display:flex;align-items:center;gap:14px;position:relative;overflow:visible">
-      <div class="tg-avatar-slot" style="width:52px;height:52px;border-radius:50%;background:var(--surf2);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--acc2);overflow:hidden">
-        <svg class="tg-avatar-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
-      </div>
-      <div style="flex:1;min-width:0;padding-right:36px">
-        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:1.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:uppercase" id="profile-name" data-i18n="player_default">ИГРОК</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px" id="profile-id">ID: —</div>
-      </div>
-      <button onclick="toggleProfileStatsInfo(event)" title="Информация" style="position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:10px;border:1px solid var(--btn-neutral-border);background:var(--btn-neutral-bg);color:var(--btn-neutral-text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;font-weight:700;line-height:1;padding:0">ℹ</button>
-      <div id="profile-stats-pop" onclick="event.stopPropagation()" style="display:none;position:absolute;top:46px;right:10px;z-index:20;width:220px;background:var(--bg);border:1px solid var(--accent-border-30);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:12px;flex-direction:column;gap:9px">
-        <div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><span style="font-size:11px;color:var(--muted);letter-spacing:.5px" data-i18n="profile_total_spun_short">Всего прокрутил:</span><b id="profile-total-spins" style="font-family:'Bebas Neue';font-size:16px;color:var(--text);letter-spacing:1px">…</b></div>
-        <div style="height:1px;background:var(--border);opacity:.7"></div>
-        <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:11px;color:var(--muted);letter-spacing:.5px" data-i18n="profile_reg_date_short">Дата регистрации:</span><b id="profile-reg-date" style="font-size:13px;color:var(--text);font-weight:700">…</b></div>
-      </div>
-    </div>
-
     <!-- TON Connect: кнопка подключения (видна, пока кошелёк не подключён) -->
     <button id="ton-connect-btn" class="ton-connect-btn" onclick="connectTonWallet()">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
       <span data-i18n="ton_connect_btn">Подключить кошелёк</span>
     </button>
 
-    <!-- TON Connect: карточка подключённого кошелька (видна после подключения) -->
-    <div id="ton-wallet-card" class="ton-wallet-card">
-      <div class="ton-wallet-icon">
-        <svg width="24" height="24" viewBox="0 0 56 56" fill="none"><path d="M28 2 52 16v24L28 54 4 40V16L28 2Z" fill="#fff" fill-opacity=".16"/><path d="M28 14 40 21v14L28 42 16 35V21L28 14Z" fill="#fff"/></svg>
+    <!-- Карточка профиля (видна после подключения кошелька) -->
+    <div id="wallet-profile-card" style="display:none;background:var(--surf2);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;align-items:center;gap:14px;position:relative;overflow:visible">
+      <div class="wallet-avatar-slot" id="wallet-avatar-wrap" onclick="pickWalletAvatar()" style="width:52px;height:52px;border-radius:50%;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;cursor:pointer">
+        <svg class="wallet-avatar-placeholder" width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="color:var(--acc2)"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+        <span class="wallet-avatar-letter" style="display:none"></span>
+        <img class="wallet-avatar-img" style="display:none" alt="">
       </div>
-      <div class="ton-wallet-info">
-        <div class="ton-wallet-label" data-i18n="ton_wallet_label">TON Wallet</div>
-        <div class="ton-wallet-address" id="ton-wallet-address">UQC7...8KJ2</div>
+      <input type="file" id="wallet-avatar-input" accept="image/*" style="display:none" onchange="onWalletAvatarPicked(event)">
+      <div style="flex:1;min-width:0;padding-right:36px">
+        <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:1.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="wallet-profile-address">—</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:2px" data-i18n="ton_wallet_label">TON Wallet</div>
       </div>
-      <button class="ton-wallet-action" onclick="copyTonWalletAddress()" title="Копировать">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+      <button onclick="toggleProfileStatsInfo(event)" title="Информация" style="position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:10px;border:1px solid var(--btn-neutral-border);background:var(--btn-neutral-bg);color:var(--btn-neutral-text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;font-weight:700;line-height:1;padding:0">ℹ</button>
+      <button onclick="disconnectTonWallet()" title="Отключить кошелёк" style="position:absolute;top:48px;right:10px;width:30px;height:30px;border-radius:10px;border:1px solid rgba(224,80,80,.4);background:rgba(224,80,80,.14);color:#e0504e;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
       </button>
-      <button class="ton-wallet-action ton-wallet-action-danger" onclick="disconnectTonWallet()" title="Отключить">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/></svg>
-      </button>
+      <div id="profile-stats-pop" onclick="event.stopPropagation()" style="display:none;position:absolute;top:86px;right:10px;z-index:20;width:220px;background:var(--bg);border:1px solid var(--accent-border-30);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:12px;flex-direction:column;gap:9px">
+        <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:11px;color:var(--muted);letter-spacing:.5px" data-i18n="profile_reg_date_short">Дата регистрации:</span><b id="profile-reg-date" style="font-size:13px;color:var(--text);font-weight:700">…</b></div>
+      </div>
     </div>
 
   </div>
@@ -2860,60 +2834,35 @@ function bnavSwitch(tab) {
 }
 
 async function _fillProfilePanel() {
-  applyTelegramAvatar();
   const pop = document.getElementById('profile-stats-pop');
   if(pop) pop.style.display='none';
-  const tg = window.Telegram?.WebApp?.initDataUnsafe;
-  const user = tg?.user;
-  const nameEl = document.getElementById('profile-name');
-  const idEl   = document.getElementById('profile-id');
-  if (nameEl) {
-    const fn = user?.first_name || '';
-    const ln = user?.last_name  || '';
-    const un = user?.username   ? ('@' + user.username) : '';
-    nameEl.textContent = (fn + ' ' + ln).trim() || un || tApp('player_default');
-  }
-  if (idEl) idEl.textContent = 'ID: ' + (user?.id || getMyId() || '—');
 
-  const tsEl = document.getElementById('profile-total-spins');
   const rdEl = document.getElementById('profile-reg-date');
 
-  // Запрашиваем актуальные данные напрямую с сервера
+  // Запрашиваем актуальную дату регистрации напрямую с сервера
   try {
     const myId = getMyId();
     if (myId && typeof SERVER_URL !== 'undefined') {
-      if (tsEl) tsEl.textContent = '…';
       if (rdEl) rdEl.textContent = '…';
       const d = await fetch(SERVER_URL + '/stats/player/' + myId).then(r => r.json());
       if (d.ok && d.player) {
         const p = d.player;
-        // Прокрутки — из сервера или локально
-        if (tsEl) {
-          const val = typeof p.total_spins === 'number' ? p.total_spins : totalSpins;
-          tsEl.textContent = Number(val).toLocaleString(localeForApp());
-        }
-        // Дата регистрации — только с сервера
         if (rdEl) {
           const raw = p.created_at;
-          if (raw) {
-            rdEl.textContent = new Date(raw).toLocaleDateString(localeForApp(), {day:'2-digit', month:'long', year:'numeric'});
-          } else {
-            rdEl.textContent = '—';
-          }
+          rdEl.textContent = raw
+            ? new Date(raw).toLocaleDateString(localeForApp(), {day:'2-digit', month:'long', year:'numeric'})
+            : '—';
         }
         return;
       }
     }
   } catch(e) {}
 
-  // Fallback: локальные переменные (обновлены через apiSyncPlayer при старте)
-  if (tsEl) tsEl.textContent = totalSpins.toLocaleString(localeForApp());
+  // Fallback: локальная переменная (обновлена через apiSyncPlayer при старте)
   if (rdEl) {
-    if (registeredAt) {
-      rdEl.textContent = new Date(registeredAt).toLocaleDateString(localeForApp(), {day:'2-digit', month:'long', year:'numeric'});
-    } else {
-      rdEl.textContent = '—';
-    }
+    rdEl.textContent = registeredAt
+      ? new Date(registeredAt).toLocaleDateString(localeForApp(), {day:'2-digit', month:'long', year:'numeric'})
+      : '—';
   }
 }
 
@@ -3007,7 +2956,7 @@ function disconnectTonWallet(){
 // и автоматически при восстановлении сессии после перезагрузки.
 function updateTonWalletUI(wallet){
   const btn=document.getElementById('ton-connect-btn');
-  const card=document.getElementById('ton-wallet-card');
+  const card=document.getElementById('wallet-profile-card');
   if(!btn||!card) return;
 
   if(wallet && wallet.account && wallet.account.address){
@@ -3016,30 +2965,70 @@ function updateTonWalletUI(wallet){
     // именно его и нужно использовать, а не показывать raw-адрес.
     const friendly = TON_CONNECT_UI.toUserFriendlyAddress(wallet.account.address, false);
     tonWalletFullAddress = friendly;
-    const addrEl=document.getElementById('ton-wallet-address');
+    const addrEl=document.getElementById('wallet-profile-address');
     if(addrEl) addrEl.textContent = friendly.slice(0,4)+'...'+friendly.slice(-4);
     btn.style.display='none';
     card.style.display='flex';
     licenseBalance = fetchLicenseBalance(friendly);
+    applyWalletAvatar(friendly);
   } else {
     tonWalletFullAddress='';
     btn.style.display='flex';
     card.style.display='none';
     // Без подключённого кошелька лицензий существовать не может — баланс всегда сбрасывается в 0.
     licenseBalance = 0;
+    applyWalletAvatar(null);
   }
   updateLicenseBalanceUI();
 }
 
-// ── КОПИРОВАНИЕ АДРЕСА ──
-function copyTonWalletAddress(){
+// ── АВАТАРКА КОШЕЛЬКА ──
+// Без подключённого кошелька — стандартная иконка-заглушка. При подключении —
+// автоматически сгенерированная аватарка (последняя буква адреса, синим, на белом фоне).
+// Пользователь может заменить её своим фото — оно сохраняется локально по адресу кошелька.
+function applyWalletAvatar(address){
+  document.querySelectorAll('.wallet-avatar-slot').forEach(slot=>{
+    const placeholder = slot.querySelector('.wallet-avatar-placeholder');
+    const letterEl = slot.querySelector('.wallet-avatar-letter');
+    const img = slot.querySelector('.wallet-avatar-img');
+    if(!address){
+      if(placeholder) placeholder.style.display='';
+      if(letterEl) letterEl.style.display='none';
+      if(img){ img.style.display='none'; img.src=''; }
+      return;
+    }
+    let customPhoto=null;
+    try{ customPhoto = localStorage.getItem('cp_wallet_avatar_'+address); }catch(e){}
+    if(customPhoto){
+      if(img){ img.src=customPhoto; img.style.display='block'; }
+      if(placeholder) placeholder.style.display='none';
+      if(letterEl) letterEl.style.display='none';
+    } else {
+      if(letterEl){ letterEl.textContent=address.slice(-1).toUpperCase(); letterEl.style.display='flex'; }
+      if(placeholder) placeholder.style.display='none';
+      if(img){ img.style.display='none'; img.src=''; }
+    }
+  });
+}
+
+function pickWalletAvatar(){
   if(!tonWalletFullAddress) return;
   playClick();haptic('light');
-  navigator.clipboard.writeText(tonWalletFullAddress).then(()=>{
-    showToast(tApp('ton_copied'));
-  }).catch(()=>{
-    showToast(tApp('ton_copy_failed'),'error');
-  });
+  document.getElementById('wallet-avatar-input')?.click();
+}
+
+function onWalletAvatarPicked(e){
+  const file = e.target.files && e.target.files[0];
+  e.target.value=''; // чтобы повторный выбор того же файла тоже сработал
+  if(!file || !tonWalletFullAddress) return;
+  const reader = new FileReader();
+  reader.onload = ()=>{
+    try{ localStorage.setItem('cp_wallet_avatar_'+tonWalletFullAddress, reader.result); }catch(err){}
+    applyWalletAvatar(tonWalletFullAddress);
+    playSuccess();haptic('success');
+  };
+  reader.onerror = ()=>{ showToast(tApp('ton_copy_failed'),'error'); };
+  reader.readAsDataURL(file);
 }
 
 // ── НЕЗАВИСИМЫЙ ЗАПУСК ──
@@ -3047,38 +3036,6 @@ function copyTonWalletAddress(){
 // если что-либо ДРУГОЕ в общем запуске бросит ошибку (Telegram API, сокет, трекинг —
 // всё это может падать вне Telegram), это не должно блокировать кошелёк. try/catch —
 // дополнительная защита от неожиданных исключений именно в этом модуле.
-// ── АВАТАРКА TELEGRAM ──
-// Если приложение открыто внутри Telegram и у пользователя есть фото профиля —
-// подставляем его вместо стандартной иконки-заглушки, во всех отмеченных местах
-// (шапка игры + карточка в профиле). Если не в Telegram или фото недоступно/не
-// загрузилось — просто остаётся текущая иконка-заглушка, ничего не ломается.
-function applyTelegramAvatar(){
-  try{
-    const user = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    const photoUrl = user?.photo_url;
-    if(!photoUrl) return;
-    document.querySelectorAll('.tg-avatar-slot').forEach(slot=>{
-      const icon = slot.querySelector('.tg-avatar-icon');
-      let img = slot.querySelector('.tg-avatar-img');
-      if(!img){
-        img = document.createElement('img');
-        img.className = 'tg-avatar-img';
-        img.referrerPolicy = 'no-referrer';
-        img.style.cssText = 'width:100%;height:100%;object-fit:cover;border-radius:50%;display:none';
-        slot.appendChild(img);
-      }
-      img.onload = ()=>{ if(icon) icon.style.display='none'; img.style.display='block'; };
-      img.onerror = ()=>{ img.style.display='none'; if(icon) icon.style.display=''; };
-      img.src = photoUrl;
-    });
-  }catch(e){}
-}
-if(document.readyState==='loading'){
-  document.addEventListener('DOMContentLoaded', applyTelegramAvatar);
-}else{
-  applyTelegramAvatar();
-}
-
 // ── БЛОКИРОВКА ВЕРТИКАЛЬНЫХ СВАЙПОВ (Telegram Mini App) ──
 // Отключает нативный жест Telegram "потянуть вниз — свернуть приложение" глобально,
 // а не только в отдельных панелях — иначе с главного экрана экран можно утянуть свайпом.
@@ -3924,7 +3881,7 @@ window.addEventListener('DOMContentLoaded',()=>{
     const tg=Telegram.WebApp;
     tg.ready();
     tg.expand();
-    // requestFullscreen убран — используем нативную TG-шапку
+    try{ tg.requestFullscreen?.(); }catch(e){}
     tg.disableClosingConfirmation?.();
     // Сообщаем боту что игрок открыл мини-апп (без закрытия аппа)
     try{
