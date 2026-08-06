@@ -74,7 +74,7 @@ try{
 .swipe-root{overflow:hidden;width:100%}
 .swipe-track{display:flex;width:300%;transition:transform .32s cubic-bezier(.4,0,.2,1)}
 .swipe-page{width:33.333%;flex-shrink:0}
-#swipe-page-main{display:flex;flex-direction:column;height:calc(100svh - 84px);overflow:hidden}
+#swipe-page-main{display:flex;flex-direction:column;height:calc(100svh - 132px);overflow:hidden}
 html{height:100%;overflow:hidden}
 body{background:var(--bg);color:var(--text);font-family:'Roboto Condensed',sans-serif;height:100%;width:100%;position:fixed;top:0;left:0;overflow:hidden;overscroll-behavior:none;padding-bottom:0}
 
@@ -354,7 +354,7 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 .bnav-btn.spin-btn .bnav-icon{font-size:20px}
 
 /* ── EVENTS OVERLAY ── */
-.events-overlay{position:fixed;inset:0;top:84px;background:var(--bg);display:none;flex-direction:column;z-index:400}
+.events-overlay{position:fixed;inset:0;top:132px;background:var(--bg);display:none;flex-direction:column;z-index:400}
 .events-overlay.show{display:flex}
 .events-overlay>.events-hdr{display:none!important}
 .events-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 10px;border-bottom:1px solid var(--border);flex-shrink:0;min-height:50px;background:var(--hdr-bg)}
@@ -480,7 +480,7 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 /* ── Аватарка кошелька: заглушка / буква / своё фото ── */
 .wallet-avatar-slot{position:relative}
 .wallet-avatar-letter{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-family:'Bebas Neue';color:#0098EA;background:#fff}
-#top-profile-btn .wallet-avatar-letter{font-size:15px}
+#top-profile-btn .wallet-avatar-letter{font-size:19px}
 #wallet-avatar-wrap .wallet-avatar-letter{font-size:22px}
 .wallet-avatar-img{width:100%;height:100%;object-fit:cover;display:block}
 
@@ -832,11 +832,11 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 <!-- Кастомная шапка убрана: используется нативный header Telegram -->
 
 <!-- Компактная строка: профиль слева, меню справа -->
-<div id="global-header" class="global-header-fade" style="background:var(--bg);padding:0;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:none;position:sticky;top:0;z-index:450;overflow:visible;height:84px">
+<div id="global-header" class="global-header-fade" style="background:var(--bg);padding:0;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:none;position:sticky;top:0;z-index:450;overflow:visible;height:132px">
   <!-- Профиль слева + баланс лицензий -->
   <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;position:relative;z-index:1">
-    <button class="settings-btn wallet-avatar-slot" id="top-profile-btn" onclick="bnavSwitch('profile')" title="Профиль" style="width:36px;height:36px;overflow:hidden">
-      <svg class="wallet-avatar-placeholder" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+    <button class="settings-btn wallet-avatar-slot" id="top-profile-btn" onclick="bnavSwitch('profile')" title="Профиль" style="width:46px;height:46px;overflow:hidden">
+      <svg class="wallet-avatar-placeholder" width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
       <span class="wallet-avatar-letter" style="display:none"></span>
       <img class="wallet-avatar-img" style="display:none" alt="">
     </button>
@@ -963,8 +963,8 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
     <!-- TON Connect: приглашение подключить кошелёк (видно, пока кошелёк не подключён) -->
     <div id="ton-connect-prompt" style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:56vh;gap:16px;width:100%;max-width:400px;margin:0 auto">
       <svg class="ton-connect-gem" width="96" height="96" viewBox="0 0 100 100">
-        <path d="M40 20L60 20C65 20 70 23 73 27L90 47C94 52 94 56 90 61L55 87C52 89 48 89 45 87L10 61C6 56 6 52 10 47L27 27C30 23 35 20 40 20Z" fill="#4FA8F5"/>
-        <path d="M52 28Q54 48 74 52Q54 56 52 76Q50 56 30 52Q50 48 52 28Z" fill="#ffffff"/>
+        <path d="M38 21L62 21Q70 21 76 28L91 47Q95 52 91 57L54 86Q50 89 46 86L9 57Q5 52 9 47L24 28Q30 21 38 21Z" fill="#4FA8F5"/>
+        <path d="M54 34Q56 50 72 52Q56 54 54 70Q52 54 36 52Q52 50 54 34Z" fill="#ffffff"/>
       </svg>
       <div class="ton-connect-prompt-text" data-i18n="ton_connect_prompt">Подключите кошелёк, чтобы торговать</div>
       <button id="ton-connect-btn" class="ton-connect-btn" onclick="connectTonWallet()">
