@@ -8,7 +8,6 @@
 // OR add a small Express middleware that sets window.__ENV_*__ variables.
 // Example nginx/express: replace {{SERVER_URL}} before serving.
 window.__ENV_SERVER_URL__ = '{{SERVER_URL}}';
-window.__ENV_ADMIN_USERNAME__ = '{{ADMIN_USERNAME}}';
 window.__ENV_TRACK_HOST__ = '{{TRACK_HOST}}';
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -133,22 +132,21 @@ body{background:var(--bg);color:var(--text);font-family:'Roboto Condensed',sans-
 
 /* Hide main bg-pattern when overlay is open */
 body:has(.events-overlay[style*="flex"]) .bg-pattern,
-body:has(.settings-overlay[style*="flex"]) .bg-pattern,
-body:has(.admin-overlay[style*="flex"]) .bg-pattern{display:block}
+body:has(.settings-overlay[style*="flex"]) .bg-pattern{display:block}
 
 /* Inner pattern for fixed overlays */
 .bg-pattern-inner{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
 .bg-pattern-inner .bg-pattern-dots,.bg-pattern-inner .bg-pattern-strokes,.bg-pattern-inner .bg-pattern-strokes2,.bg-pattern-inner .bg-pattern-mid,.bg-pattern-inner .bg-pattern-wave{position:absolute}
 
 /* All screens same bg */
-body,.events-overlay,.admin-overlay,.bpanel-overlay{
+body,.events-overlay,.bpanel-overlay{
   background:var(--bg) !important;
 }
 .swipe-root,.swipe-page,.swipe-track{position:relative;z-index:1}
-.events-overlay,.bpanel-overlay,.settings-overlay,.admin-overlay{position:fixed}
+.events-overlay,.bpanel-overlay,.settings-overlay{position:fixed}
 
 /* Overlay children above pattern */
-.events-hdr,.events-body,.bpanel-sheet,.settings-hdr,.settings-body,.admin-overlay>*,.bpanel-hdr,.bpanel-body{position:relative;z-index:1}
+.events-hdr,.events-body,.bpanel-sheet,.settings-hdr,.settings-body,.bpanel-hdr,.bpanel-body{position:relative;z-index:1}
 .bpanel-sheet{background:var(--bg) !important;position:relative}
 
 /* ── HEADER ── */
@@ -452,13 +450,6 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 .settings-close{background:rgba(0,0,0,.06);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:pointer;flex-shrink:0}
 .settings-body{padding:8px 16px 32px}
 
-/* ── ЛИЦЕНЗИИ (баланс в шапке + меню) ── */
-.license-pill{display:flex;align-items:center;gap:6px;height:32px;padding:0 6px 0 8px;border-radius:16px;background:var(--btn-neutral-bg);border:1px solid var(--btn-neutral-border);cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .15s}
-.license-pill:active{transform:scale(.95)}
-.license-count{font-family:'Bebas Neue';font-size:15px;letter-spacing:.5px;color:var(--text)}
-.license-plus{width:22px;height:22px;border-radius:50%;background:var(--accent-bg-12);color:var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.license-sheet{background:var(--bg);border-radius:20px 20px 0 0;border:1px solid var(--border);border-bottom:none;width:100%;max-width:500px;min-height:62vh;animation:slideUp .28s cubic-bezier(.25,.46,.45,.94)}
-
 /* ── TON CONNECT ── */
 .ton-connect-btn{
   display:flex;width:100%;align-items:center;justify-content:center;gap:10px;
@@ -616,82 +607,6 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 .plate-wrap{position:relative}
 
 
-/* ── ADMIN PANEL ── */
-#admin-overlay{display:none;position:fixed;inset:0;z-index:9999;background:var(--bg);font-family:'Rajdhani',sans-serif;flex-direction:column;overflow:hidden}
-#admin-overlay.open{display:flex}
-#adm-fixed-top{flex-shrink:0;background:var(--bg);z-index:10}
-#adm-scroll-body{flex:1;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;touch-action:pan-y}
-#adm-scroll-body *{touch-action:pan-y}
-.adm-hdr{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--surf);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:10}
-.adm-hdr-title{font-family:'Bebas Neue';font-size:22px;letter-spacing:1px;color:var(--text);flex:1}
-.adm-close{background:none;border:none;color:var(--muted);font-size:22px;cursor:pointer;padding:4px}
-.adm-tabs{display:flex;gap:6px;padding:12px 16px 0;overflow-x:auto;scrollbar-width:none}
-.adm-tab{flex-shrink:0;padding:7px 14px;border-radius:20px;border:1px solid var(--border);background:var(--surf);color:var(--muted);font-family:'Bebas Neue';font-size:13px;letter-spacing:1px;cursor:pointer;transition:all .15s}
-.adm-tab.active{background:var(--accent-bg-active);color:var(--bnav-active-text);border-color:transparent}
-.adm-body{padding:12px 0;flex:1}
-.adm-section{display:none}.adm-section.active{display:block}
-.adm-stat-row{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--border)}
-.adm-stat-label{color:var(--muted);font-size:15px}
-.adm-stat-val{font-family:'Bebas Neue';font-size:20px;color:var(--text);letter-spacing:1px}
-.adm-user-row{display:flex;align-items:center;gap:8px;padding:10px 16px;border-bottom:1px solid var(--border)}
-.adm-user-id{font-size:11px;color:var(--muted);font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:200px}
-.adm-user-name{font-size:14px;font-weight:700;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:160px}
-.adm-user-played{font-size:10px;padding:2px 7px;border-radius:10px;background:rgba(46,204,113,.15);color:#2ecc71;font-weight:700}
-.adm-loader{text-align:center;color:var(--muted);padding:32px 0;font-size:14px}
-.adm-err{color:var(--danger);text-align:center;padding:20px 0;font-size:13px}
-.adm-search{width:100%;padding:9px 12px;background:var(--surf);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;margin-bottom:12px;box-sizing:border-box;font-family:'Rajdhani'}
-.adm-badge{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
-.adm-badge-green{background:rgba(46,204,113,.15);color:#2ecc71}
-.adm-badge-gray{background:var(--surf2);color:var(--muted)}
-.adm-refresh{background:var(--surf);border:1px solid var(--border);color:var(--text);padding:7px 16px;border-radius:10px;cursor:pointer;font-family:'Bebas Neue';font-size:14px;letter-spacing:1px;margin-bottom:14px}
-.adm-players-count{display:flex;align-items:center;justify-content:space-between;background:var(--surf);border:1px solid var(--border);border-radius:12px;padding:12px 16px;margin-bottom:12px}
-.adm-players-label{font-family:'Bebas Neue';font-size:13px;letter-spacing:1px;color:var(--muted)}
-.adm-players-num{font-family:'Bebas Neue';font-size:28px;color:var(--text);letter-spacing:2px}
-.adm-filter-row{display:flex;gap:8px;margin-bottom:8px;overflow-x:auto;scrollbar-width:none}
-.adm-filter-row::-webkit-scrollbar{display:none}
-.adm-filter-btn{flex-shrink:0;padding:7px 16px;border-radius:20px;border:1px solid var(--border);background:var(--surf);color:var(--muted);font-family:'Bebas Neue';font-size:14px;letter-spacing:.5px;cursor:pointer;transition:all .15s;white-space:nowrap}
-.adm-filter-btn.active{background:var(--accent-bg-active);color:var(--bnav-active-text);border-color:transparent}
-.adm-filter-btn--small{padding:5px 13px;font-size:12px;border-radius:14px}
-/* Profile modal */
-#adm-profile-modal.open{display:flex}
-.adm-ptab{flex-shrink:0;padding:6px 14px;border-radius:18px;border:1px solid var(--border);background:var(--surf2,var(--surf));color:var(--muted);font-family:'Bebas Neue';font-size:13px;letter-spacing:.5px;cursor:pointer;transition:all .15s;white-space:nowrap}
-.adm-ptab.active{background:var(--accent-bg-active);color:var(--bnav-active-text);border-color:transparent}
-.adm-prow{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;border-bottom:1px solid var(--border);font-size:14px}
-.adm-prow-label{color:var(--muted)}
-.adm-prow-val{font-weight:700;color:var(--text);text-align:right;max-width:60%}
-.adm-plate-card{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;border-bottom:1px solid var(--border)}
-.adm-log-row{display:flex;gap:10px;align-items:flex-start;padding:9px 16px;border-bottom:1px solid var(--border)}
-.adm-log-icon{font-size:16px;flex-shrink:0;margin-top:1px}
-.adm-log-time{font-size:10px;color:var(--muted)}
-/* ── ADMIN ACTIONS ── */
-.adm-actions-section{padding:14px 16px 20px}
-.adm-actions-title{font-size:10px;color:var(--muted);letter-spacing:2px;text-transform:uppercase;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-.adm-action-group{background:var(--surf);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
-.adm-action-group-title{font-size:11px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;font-weight:700}
-.adm-action-row{display:flex;gap:8px;align-items:center;margin-bottom:8px}
-.adm-action-row:last-child{margin-bottom:0}
-.adm-action-inp{flex:1;padding:9px 12px;background:var(--surf2,#222);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px;font-family:'Rajdhani';font-weight:600;outline:none}
-.adm-action-inp:focus{border-color:#606060}
-.adm-action-select{flex:1;padding:9px 10px;background:var(--surf2,#222);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;font-family:'Rajdhani';font-weight:600;outline:none;cursor:pointer}
-/* Custom dropdown для адмнки */
-.adm-dd{position:relative;flex:1}
-.adm-dd-btn{width:100%;padding:9px 36px 9px 12px;background:var(--surf2,#222);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;font-family:'Rajdhani';font-weight:600;text-align:left;cursor:pointer;position:relative;box-sizing:border-box;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.adm-dd-btn::after{content:'▾';position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:14px;color:var(--muted);pointer-events:none}
-.adm-dd-list{position:absolute;top:calc(100% + 4px);left:0;right:0;background:var(--surf,#1e1e1e);border:1px solid var(--border);border-radius:10px;z-index:9999;overflow:hidden;box-shadow:0 8px 24px rgba(0,0,0,.5);display:none;max-height:220px;overflow-y:auto}
-.adm-dd-list.open{display:block}
-.adm-dd-opt{padding:11px 14px;font-size:13px;font-family:'Rajdhani';font-weight:600;color:var(--text);cursor:pointer;transition:background .12s;border-bottom:1px solid var(--border)}
-.adm-dd-opt:last-child{border-bottom:none}
-.adm-dd-opt:active,.adm-dd-opt.sel{background:rgba(232,232,232,.1);color:#fff}
-.adm-action-btn{padding:9px 14px;border:none;border-radius:10px;font-family:'Bebas Neue';font-size:13px;letter-spacing:1px;cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0}
-.adm-action-btn:active{transform:scale(.96)}
-.adm-action-btn.give{background:#2ecc71;color:#0a0a0a}
-.adm-action-btn.take{background:#e05050;color:#fff}
-.adm-action-btn.neutral{background:var(--accent);color:#fff}
-.adm-plate-row{display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap}
-.adm-plate-mini-inp{flex:1;min-width:60px;padding:8px 10px;background:var(--surf2,#222);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:13px;font-family:'Rajdhani';font-weight:600;outline:none;text-transform:uppercase}
-.adm-plate-mini-inp:focus{border-color:#606060}
-.adm-action-label{font-size:12px;color:var(--muted);margin-bottom:6px}
-
 /* ── ZIENTRES CHANNELS BUTTONS ── */
 .zientres-buttons-container {
   display: flex;
@@ -766,97 +681,18 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
 <body>
 <div class="bg-pattern"><div class="bg-pattern-dots"></div><div class="bg-pattern-strokes"></div><div class="bg-pattern-strokes2"></div><div class="bg-pattern-mid"></div><div class="bg-pattern-wave"></div></div>
 
-<!-- ADMIN PANEL OVERLAY -->
-<div id="admin-overlay">
-  <!-- Фиксированная шапка — никогда не скроллится -->
-  <div id="adm-fixed-top">
-    <div class="adm-hdr">
-      <span class="adm-hdr-title">📊 СТАТИСТИКА ИГРЫ</span>
-      <button class="adm-close" onclick="admClose()">✕</button>
-    </div>
-    <div class="adm-tabs">
-      <div class="adm-tab active" onclick="admTab('stats')">ОБЗОР</div>
-      <div class="adm-tab" onclick="admTab('users')">ИГРОКИ</div>
-    </div>
-  </div>
-
-  <!-- Скролящийся контент -->
-  <div id="adm-scroll-body">
-
-    <!-- STATS -->
-    <div class="adm-section active" id="adm-stats">
-      <div style="padding:12px 16px 0">
-        <button class="adm-refresh" onclick="admLoadStats()">↻ ОБНОВИТЬ</button>
-      </div>
-      <div id="adm-stats-body"><div class="adm-loader">Загрузка...</div></div>
-    </div>
-
-    <!-- USERS -->
-    <div class="adm-section" id="adm-users">
-      <div style="padding:12px 16px 0">
-        <div class="adm-players-count" id="adm-players-count" style="display:none">
-          <span class="adm-players-label">ВСЕГО ИГРОКОВ</span>
-          <span class="adm-players-num" id="adm-players-num">0</span>
-        </div>
-        <input class="adm-search" id="adm-search" placeholder="Поиск по ID..." oninput="admFilterUsers()" type="number" inputmode="numeric">
-        <div class="adm-filter-row">
-          <button class="adm-filter-btn active" id="adm-filter-newest" onclick="admSetFilter('newest')">🆕 Новые</button>
-          <button class="adm-filter-btn" id="adm-filter-oldest" onclick="admSetFilter('oldest')">📅 Старые</button>
-        </div>
-        <div style="margin-bottom:10px">
-          <button class="adm-filter-btn adm-filter-btn--small" id="adm-filter-noguests" onclick="admToggleGuests()">👤 Скрыть гостей</button>
-        </div>
-        <button class="adm-refresh" onclick="admLoadUsers()">↻ ОБНОВИТЬ</button>
-      </div>
-      <div id="adm-users-body"><div class="adm-loader">Загрузка...</div></div>
-    </div>
-
-  </div>
-</div>
-
-<!-- PLAYER PROFILE MODAL -->
-<div id="adm-profile-modal" style="position:fixed;inset:0;z-index:10000;background:var(--bg);flex-direction:column;font-family:'Rajdhani',sans-serif;display:none">
-  <div style="display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--surf);border-bottom:1px solid var(--border);flex-shrink:0">
-    <button onclick="admCloseProfile()" style="background:none;border:none;color:var(--text);font-size:20px;cursor:pointer;padding:0 6px 0 0">←</button>
-    <span style="font-family:'Bebas Neue';font-size:18px;letter-spacing:1px;color:var(--text)" id="adm-profile-title" data-i18n="hdr_profile">ПРОФИЛЬ</span>
-  </div>
-  <div id="adm-profile-tabs" style="display:flex;gap:6px;padding:10px 16px;background:var(--surf);border-bottom:1px solid var(--border);overflow-x:auto;flex-shrink:0">
-    <button class="adm-ptab active" onclick="admProfileTab('info')" id="apt-info">📋 Инфо</button>
-    <button class="adm-ptab" onclick="admProfileTab('inv')" id="apt-inv">🚗 Гараж</button>
-    <button class="adm-ptab" onclick="admProfileTab('logs')" id="apt-logs">📜 Логи</button>
-  </div>
-  <div id="adm-profile-body" style="flex:1;overflow-y:auto;overscroll-behavior:contain">
-    <div class="adm-loader">Загрузка...</div>
-  </div>
-</div>
-<!-- Кастомная шапка убрана: используется нативный header Telegram -->
-
 <!-- Компактная строка: профиль слева, меню справа -->
 <div id="global-header" class="global-header-fade" style="background:var(--bg);padding:0;display:flex;align-items:flex-end;justify-content:space-between;border-bottom:none;position:sticky;top:0;z-index:450;overflow:visible;height:132px">
-  <!-- Профиль слева + баланс лицензий -->
+  <!-- Профиль слева -->
   <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;position:relative;z-index:1">
     <button class="settings-btn wallet-avatar-slot" id="top-profile-btn" onclick="bnavSwitch('profile')" title="Профиль" style="width:46px;height:46px;overflow:hidden">
       <svg class="wallet-avatar-placeholder" width="23" height="23" viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
       <span class="wallet-avatar-letter" style="display:none"></span>
       <img class="wallet-avatar-img" style="display:none" alt="">
     </button>
-    <button class="license-pill" onclick="openLicenseMenu()" title="Лицензии">
-      <svg width="22" height="15" viewBox="0 0 64 42" fill="none">
-        <defs><linearGradient id="licCardGrad" x1="0" y1="0" x2="64" y2="42" gradientUnits="userSpaceOnUse"><stop stop-color="#ffffff"/><stop offset="1" stop-color="#dbe8f7"/></linearGradient></defs>
-        <path d="M4 3h48l9 9v24l-6 6H10l-6-6V9z" fill="url(#licCardGrad)" stroke="#0098EA" stroke-width="1.6"/>
-        <path d="M7 27c3 0 6 0 9-4 4-6 9-11 15-11 6 0 10 4 14 8 4 4 7 5 11 5" stroke="#1E88E5" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <circle cx="17" cy="29.5" r="3.4" stroke="#1E88E5" stroke-width="1.5" fill="#fff"/>
-        <circle cx="47" cy="29.5" r="3.4" stroke="#1E88E5" stroke-width="1.5" fill="#fff"/>
-        <path d="M32 10l3 6 6 2-6 2-3 6-3-6-6-2 6-2z" fill="#0098EA"/>
-      </svg>
-      <span class="license-count" id="license-balance-count">0</span>
-      <span class="license-plus">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-      </span>
-    </button>
   </div>
-  <!-- Невидимая зона — 5 тапов открывают админку -->
-  <div onclick="admTitleTap()" style="flex:1;height:100%"></div>
+  <!-- Спейсер: раздвигает кнопку профиля и кнопку меню по краям шапки -->
+  <div style="flex:1;height:100%"></div>
   <!-- Правая часть: меню (тема) -->
   <div style="display:flex;align-items:center;gap:8px;padding:8px 14px;position:relative;z-index:1">
     <button class="settings-btn" id="menu-btn" onclick="openThemeLangMenu()" title="Меню"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg></button>
@@ -983,11 +819,17 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
       <input type="file" id="wallet-avatar-input" accept="image/*" style="display:none" onchange="onWalletAvatarPicked(event)">
       <div style="flex:1;min-width:0;padding-right:36px">
         <div style="font-family:'Bebas Neue';font-size:20px;letter-spacing:1.5px;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" id="wallet-profile-address">—</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:2px" data-i18n="ton_wallet_label">TON Wallet</div>
       </div>
       <button onclick="toggleProfileStatsInfo(event)" title="Информация" style="position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:10px;border:1px solid var(--btn-neutral-border);background:var(--btn-neutral-bg);color:var(--btn-neutral-text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;font-weight:700;line-height:1;padding:0">ℹ</button>
       <button onclick="disconnectTonWallet()" title="Отключить кошелёк" style="position:absolute;top:48px;right:10px;width:30px;height:30px;border-radius:10px;border:1px solid rgba(224,80,80,.4);background:rgba(224,80,80,.14);color:#e0504e;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><path d="M18.36 6.64a9 9 0 1 1-12.73 0"/><line x1="12" y1="2" x2="12" y2="12"/></svg>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6.5 18.5A4.6 4.6 0 1 1 12.7 12.3"/>
+          <path d="M17.5 5.5A4.6 4.6 0 1 1 11.3 11.7"/>
+          <line x1="10" y1="3.8" x2="10" y2="5.4"/>
+          <line x1="6.6" y1="5.9" x2="8.1" y2="6.7"/>
+          <line x1="14" y1="20.2" x2="14" y2="18.6"/>
+          <line x1="17.4" y1="18.1" x2="15.9" y2="17.3"/>
+        </svg>
       </button>
       <div id="profile-stats-pop" onclick="event.stopPropagation()" style="display:none;position:absolute;top:86px;right:10px;z-index:20;width:220px;background:var(--bg);border:1px solid var(--accent-border-30);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:12px;flex-direction:column;gap:9px">
         <div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:11px;color:var(--muted);letter-spacing:.5px" data-i18n="profile_reg_date_short">Дата регистрации:</span><b id="profile-reg-date" style="font-size:13px;color:var(--text);font-weight:700">…</b></div>
@@ -1120,13 +962,6 @@ body,.events-overlay,.admin-overlay,.bpanel-overlay{
         <button class="settings-toggle" id="sound-toggle-btn" onclick="toggleSound()"><span class="knob"></span></button>
       </div>
     </div>
-  </div>
-</div>
-
-<!-- ЛИЦЕНЗИИ: выплывающее снизу меню, пока пустое, без шапки -->
-<div class="settings-overlay" id="license-overlay" onclick="if(event.target===this)closeLicenseMenu()">
-  <div class="license-sheet">
-    <div class="settings-body"></div>
   </div>
 </div>
 
@@ -2160,11 +1995,11 @@ const APP_LANGS=['ru','en','zh','uz','ja'];
 let currentAppLang='ru';
 
 const I18N_RESOURCES={
-  ru:{translation:{nav_market:'РЫНОК', nav_play:'ИГРА', nav_inventory:'МОИ НОМЕРА', hdr_inventory:'МОИ НОМЕРА', hdr_profile:'ПРОФИЛЬ', inv_title:'НОМЕРНЫЕ ЗНАКИ', btn_spin:'КРУТИТЬ', player_default:'Игрок', btn_cancel:'ОТМЕНА', confirm_ok:'ДА', profile_total_spun_short:'Всего прокрутил:', profile_reg_date_short:'Дата регистрации:', ton_connect_btn:'Подключить кошелёк', ton_connect_prompt:'Подключите кошелёк, чтобы торговать', ton_wallet_label:'TON Wallet', ton_copied:'Адрес скопирован', ton_copy_failed:'Не удалось скопировать', ton_sdk_not_ready:'Кошелёк ещё загружается, попробуйте через секунду', settings_sound:'Воспроизводить звуки', plate_db_title:'База номеров', plate_db_search_placeholder:'Поиск...', plate_db_search_title:'ПОИСК', plate_db_go_search:'ИСКАТЬ', plate_db_searching:'Поиск...', plate_db_search_soon:'Скоро здесь появятся результаты поиска', plate_db_not_found:'Номер не найден', zientres_channel_label:'Канал', zientres_chat_label:'Чат', country_ru:'Россия', country_ua:'Украина', country_by:'Беларусь', country_kz:'Казахстан', plate_taken:'ЭТОТ НОМЕР УЖЕ ЗАНЯТ — КРУТИ СНОВА', spin_first:'СНАЧАЛА ПРОКРУТИ НОМЕР', spin_after_region:'ПРОКРУТИ НОМЕР ПОСЛЕ ВЫБОРА РЕГИОНА', inv_full:'ИНВЕНТАРЬ ПОЛОН (МАКС. 10)', region_invalid:'УКАЖИ ВЕРНЫЙ РЕГИОН', plate_already_saved:'НОМЕР УЖЕ СОХРАНЁН', saved_toast:'СОХРАНЕНО', inv_empty:'У вас нет номеров', sent_toast:'ОТПРАВЛЕНО', popup_region_invalid_title:'РЕГИОН НЕ СУЩЕСТВУЕТ', popup_ok:'ПОНЯТНО', region_not_exist:'Регион «{{code}}» не существует', share_title:'ПОДЕЛИТЬСЯ', share_btn:'ПОДЕЛИТЬСЯ В TELEGRAM', share_msg:'Выбил номер {{plate}}!\nПопробуй и ты → @carzplate_bot', confirm_delete_plate:'Ты точно хочешь удалить номерной знак?', admin_gave_plate:'🚗 Администратор выдал номер {{plate}}', admin_took_plate:'🗑 Администратор отобрал номер {{plate}}', popup_hint_RU:'Пример: <b>777</b> — Москва, <b>98</b> — СПб, <b>23</b> — Краснодар.', popup_hint_UA:'Пример: <b>AA</b> — Киев, <b>AT</b> — Ивано-Франковск, <b>AB</b> — Винница.<br>Пиши на английской раскладке.', popup_hint_BY:'Цифру 1–7. Пример: <b>7</b> — г. Минск, <b>1</b> — Брестская область.', popup_hint_KZ:'Код 01–20. Пример: <b>01</b> — Астана, <b>02</b> — Алматы.'}},
-  en:{translation:{nav_market:'MARKET', nav_play:'PLAY', nav_inventory:'MY PLATES', hdr_inventory:'MY PLATES', hdr_profile:'PROFILE', inv_title:'LICENSE PLATES', btn_spin:'SPIN', player_default:'Player', btn_cancel:'CANCEL', confirm_ok:'YES', profile_total_spun_short:'Total spins:', profile_reg_date_short:'Registration date:', ton_connect_btn:'Connect wallet', ton_connect_prompt:'Connect your wallet to trade', ton_wallet_label:'TON Wallet', ton_copied:'Address copied', ton_copy_failed:'Failed to copy', ton_sdk_not_ready:'Wallet is still loading, try again in a second', settings_sound:'Play sounds', plate_db_title:'Plate database', plate_db_search_placeholder:'Search...', plate_db_search_title:'SEARCH', plate_db_go_search:'SEARCH', plate_db_searching:'Searching...', plate_db_search_soon:'Search results will appear here soon', plate_db_not_found:'Plate not found', zientres_channel_label:'Channel', zientres_chat_label:'Chat', country_ru:'Russia', country_ua:'Ukraine', country_by:'Belarus', country_kz:'Kazakhstan', plate_taken:'THIS PLATE IS TAKEN — SPIN AGAIN', spin_first:'SPIN THE PLATE FIRST', spin_after_region:'SPIN THE PLATE AFTER PICKING A REGION', inv_full:'INVENTORY FULL (MAX 10)', region_invalid:'PICK A VALID REGION', plate_already_saved:'PLATE ALREADY SAVED', saved_toast:'SAVED', inv_empty:'You have no plates', sent_toast:'SENT', popup_region_invalid_title:"REGION DOESN'T EXIST", popup_ok:'GOT IT', region_not_exist:'Region "{{code}}" does not exist', share_title:'SHARE', share_btn:'SHARE ON TELEGRAM', share_msg:'I got the plate {{plate}}!\nTry it yourself → @carzplate_bot', confirm_delete_plate:'Are you sure you want to delete this plate?', admin_gave_plate:'🚗 An admin gave you the plate {{plate}}', admin_took_plate:'🗑 An admin took the plate {{plate}}', popup_hint_RU:'Example: <b>777</b> — Moscow, <b>98</b> — St. Petersburg, <b>23</b> — Krasnodar.', popup_hint_UA:'Example: <b>AA</b> — Kyiv, <b>AT</b> — Ivano-Frankivsk, <b>AB</b> — Vinnytsia.<br>Type using the English (Latin) keyboard layout.', popup_hint_BY:'A digit 1–7. Example: <b>7</b> — Minsk, <b>1</b> — Brest region.', popup_hint_KZ:'Code 01–20. Example: <b>01</b> — Astana, <b>02</b> — Almaty.'}},
-  zh:{translation:{nav_market:'市场', nav_play:'游戏', nav_inventory:'我的车牌', hdr_inventory:'我的车牌', hdr_profile:'个人资料', inv_title:'车牌', btn_spin:'转动', player_default:'玩家', btn_cancel:'取消', confirm_ok:'是', profile_total_spun_short:'总旋转次数：', profile_reg_date_short:'注册日期：', ton_connect_btn:'连接钱包', ton_connect_prompt:'连接钱包以进行交易', ton_wallet_label:'TON 钱包', ton_copied:'地址已复制', ton_copy_failed:'复制失败', ton_sdk_not_ready:'钱包正在加载，请稍后重试', settings_sound:'播放音效', plate_db_title:'车牌数据库', plate_db_search_placeholder:'搜索...', plate_db_search_title:'搜索', plate_db_go_search:'搜索', plate_db_searching:'搜索中...', plate_db_search_soon:'搜索结果即将上线', plate_db_not_found:'未找到车牌', zientres_channel_label:'频道', zientres_chat_label:'聊天', country_ru:'俄罗斯', country_ua:'乌克兰', country_by:'白俄罗斯', country_kz:'哈萨克斯坦', plate_taken:'该车牌已被占用 — 请重新转动', spin_first:'请先转动车牌', spin_after_region:'选择地区后请重新转动车牌', inv_full:'车牌栏已满（最多10个）', region_invalid:'请选择有效地区', plate_already_saved:'该车牌已保存', saved_toast:'已保存', inv_empty:'你还没有车牌', sent_toast:'已发送', popup_region_invalid_title:'地区不存在', popup_ok:'知道了', region_not_exist:'地区「{{code}}」不存在', share_title:'分享', share_btn:'分享到 TELEGRAM', share_msg:'我抽到了车牌 {{plate}}！\n你也来试试 → @carzplate_bot', confirm_delete_plate:'确定要删除这个车牌吗？', admin_gave_plate:'🚗 管理员给了你车牌 {{plate}}', admin_took_plate:'🗑 管理员收回了车牌 {{plate}}', popup_hint_RU:'例如：<b>777</b> — 莫斯科，<b>98</b> — 圣彼得堡，<b>23</b> — 克拉斯诺达尔。', popup_hint_UA:'例如：<b>AA</b> — 基辅，<b>AT</b> — 伊万诺-弗兰科夫斯克，<b>AB</b> — 文尼察。<br>请使用英文（拉丁字母）键盘输入。', popup_hint_BY:'数字 1–7。例如：<b>7</b> — 明斯克，<b>1</b> — 布列斯特州。', popup_hint_KZ:'代码 01–20。例如：<b>01</b> — 阿斯塔纳，<b>02</b> — 阿拉木图。'}},
-  uz:{translation:{nav_market:'BOZOR', nav_play:"OʻYIN", nav_inventory:'MENING RAQAMLARIM', hdr_inventory:'MENING RAQAMLARIM', hdr_profile:'PROFIL', inv_title:'DAVLAT RAQAMLARI', btn_spin:'AYLANTIRISH', player_default:"Oʻyinchi", btn_cancel:'BEKOR QILISH', confirm_ok:'HA', profile_total_spun_short:'Jami aylantirildi:', profile_reg_date_short:"Roʻyxatdan oʻtgan sana:", ton_connect_btn:'Hamyonni ulash', ton_connect_prompt:'Savdo qilish uchun hamyoningizni ulang', ton_wallet_label:'TON Wallet', ton_copied:'Manzil nusxalandi', ton_copy_failed:'Nusxalab boʻlmadi', ton_sdk_not_ready:'Hamyon hali yuklanmoqda, birozdan keyin urinib koʻring', settings_sound:'Ovozlarni ijro etish', plate_db_title:'Raqamlar bazasi', plate_db_search_placeholder:'Qidiruv...', plate_db_search_title:'QIDIRUV', plate_db_go_search:'QIDIRISH', plate_db_searching:'Qidirilmoqda...', plate_db_search_soon:'Qidiruv natijalari tez orada paydo bo\'ladi', plate_db_not_found:'Raqam topilmadi', zientres_channel_label:'Kanal', zientres_chat_label:'Chat', country_ru:'Rossiya', country_ua:'Ukraina', country_by:'Belarus', country_kz:"Qozogʻiston", plate_taken:'BU RAQAM BAND — QAYTA AYLANTIRING', spin_first:'AVVAL RAQAMNI AYLANTIRING', spin_after_region:'HUDUDNI TANLAGANDAN KEYIN RAQAMNI AYLANTIRING', inv_full:'INVENTAR TOʻLDI (MAKS. 10)', region_invalid:"TOʻGʻRI HUDUDNI KOʻRSATING", plate_already_saved:'RAQAM ALLAQACHON SAQLANGAN', saved_toast:'SAQLANDI', inv_empty:"Sizda raqamlar yoʻq", sent_toast:'YUBORILDI', popup_region_invalid_title:'HUDUD MAVJUD EMAS', popup_ok:'TUSHUNARLI', region_not_exist:'«{{code}}» hududi mavjud emas', share_title:'ULASHISH', share_btn:'TELEGRAMDA ULASHISH', share_msg:'{{plate}} raqamini urdim!\nSiz ham urinib koʻring → @carzplate_bot', confirm_delete_plate:"Raqamni oʻchirmoqchimisiz?", admin_gave_plate:'🚗 Administrator sizga {{plate}} raqamini berdi', admin_took_plate:'🗑 Administrator {{plate}} raqamini oldi', popup_hint_RU:'Masalan: <b>777</b> — Moskva, <b>98</b> — Sankt-Peterburg, <b>23</b> — Krasnodar.', popup_hint_UA:'Masalan: <b>AA</b> — Kiyev, <b>AT</b> — Ivano-Frankivsk, <b>AB</b> — Vinnitsa.<br>Inglizcha (lotin) klaviatura tartibida yozing.', popup_hint_BY:'1–7 raqami. Masalan: <b>7</b> — Minsk, <b>1</b> — Brest viloyati.', popup_hint_KZ:'01–20 kodi. Masalan: <b>01</b> — Astana, <b>02</b> — Almati.'}},
-  ja:{translation:{nav_market:'マーケット', nav_play:'プレイ', nav_inventory:'マイナンバープレート', hdr_inventory:'マイナンバープレート', hdr_profile:'プロフィール', inv_title:'ナンバープレート', btn_spin:'まわす', player_default:'プレイヤー', btn_cancel:'キャンセル', confirm_ok:'はい', profile_total_spun_short:'合計回転数：', profile_reg_date_short:'登録日：', ton_connect_btn:'ウォレットを接続', ton_connect_prompt:'取引するにはウォレットを接続してください', ton_wallet_label:'TON Wallet', ton_copied:'アドレスをコピーしました', ton_copy_failed:'コピーに失敗しました', ton_sdk_not_ready:'ウォレットを読み込み中です。少ししてからもう一度お試しください', settings_sound:'効果音を再生', plate_db_title:'ナンバープレートデータベース', plate_db_search_placeholder:'検索...', plate_db_search_title:'検索', plate_db_go_search:'検索', plate_db_searching:'検索中...', plate_db_search_soon:'検索結果はまもなく表示されます', plate_db_not_found:'ナンバーが見つかりません', zientres_channel_label:'チャンネル', zientres_chat_label:'チャット', country_ru:'ロシア', country_ua:'ウクライナ', country_by:'ベラルーシ', country_kz:'カザフスタン', plate_taken:'このナンバーは既に使われています — もう一度まわしてください', spin_first:'まずナンバープレートをまわしてください', spin_after_region:'地域を選んだ後にまわしてください', inv_full:'所持数が上限です（最大10枚）', region_invalid:'正しい地域を指定してください', plate_already_saved:'このナンバーは既に保存されています', saved_toast:'保存しました', inv_empty:'ナンバープレートがありません', sent_toast:'送信しました', popup_region_invalid_title:'その地域は存在しません', popup_ok:'わかりました', region_not_exist:'地域「{{code}}」は存在しません', share_title:'シェア', share_btn:'Telegramでシェア', share_msg:'ナンバー{{plate}}が当たりました！\nあなたも挑戦してみて → @carzplate_bot', confirm_delete_plate:'このナンバープレートを削除しますか？', admin_gave_plate:'🚗 管理者があなたにナンバー{{plate}}を付与しました', admin_took_plate:'🗑 管理者がナンバー{{plate}}を回収しました', popup_hint_RU:'例：<b>777</b> — モスクワ、<b>98</b> — サンクトペテルブルク、<b>23</b> — クラスノダール。', popup_hint_UA:'例：<b>AA</b> — キーウ、<b>AT</b> — イヴァーノ＝フランキーウシク、<b>AB</b> — ヴィーンヌィツャ。<br>英語（ローマ字）キーボードで入力してください。', popup_hint_BY:'数字1〜7。例：<b>7</b> — ミンスク市、<b>1</b> — ブレスト州。', popup_hint_KZ:'コード01〜20。例：<b>01</b> — アスタナ、<b>02</b> — アルマトイ。'}},
+  ru:{translation:{nav_market:'РЫНОК', nav_play:'ИГРА', nav_inventory:'МОИ НОМЕРА', hdr_inventory:'МОИ НОМЕРА', hdr_profile:'ПРОФИЛЬ', inv_title:'НОМЕРНЫЕ ЗНАКИ', btn_spin:'КРУТИТЬ', player_default:'Игрок', btn_cancel:'ОТМЕНА', confirm_ok:'ДА', profile_total_spun_short:'Всего прокрутил:', profile_reg_date_short:'Дата регистрации:', ton_connect_btn:'Подключить кошелёк', ton_connect_prompt:'Подключите кошелёк, чтобы торговать', ton_copied:'Адрес скопирован', ton_copy_failed:'Не удалось скопировать', ton_sdk_not_ready:'Кошелёк ещё загружается, попробуйте через секунду', settings_sound:'Воспроизводить звуки', plate_db_title:'База номеров', plate_db_search_placeholder:'Поиск...', plate_db_search_title:'ПОИСК', plate_db_go_search:'ИСКАТЬ', plate_db_searching:'Поиск...', plate_db_search_soon:'Скоро здесь появятся результаты поиска', plate_db_not_found:'Номер не найден', zientres_channel_label:'Канал', zientres_chat_label:'Чат', country_ru:'Россия', country_ua:'Украина', country_by:'Беларусь', country_kz:'Казахстан', plate_taken:'ЭТОТ НОМЕР УЖЕ ЗАНЯТ — КРУТИ СНОВА', spin_first:'СНАЧАЛА ПРОКРУТИ НОМЕР', spin_after_region:'ПРОКРУТИ НОМЕР ПОСЛЕ ВЫБОРА РЕГИОНА', inv_full:'ИНВЕНТАРЬ ПОЛОН (МАКС. 10)', region_invalid:'УКАЖИ ВЕРНЫЙ РЕГИОН', plate_already_saved:'НОМЕР УЖЕ СОХРАНЁН', saved_toast:'СОХРАНЕНО', inv_empty:'У вас нет номеров', sent_toast:'ОТПРАВЛЕНО', popup_region_invalid_title:'РЕГИОН НЕ СУЩЕСТВУЕТ', popup_ok:'ПОНЯТНО', region_not_exist:'Регион «{{code}}» не существует', share_title:'ПОДЕЛИТЬСЯ', share_btn:'ПОДЕЛИТЬСЯ В TELEGRAM', share_msg:'Выбил номер {{plate}}!\nПопробуй и ты → @carzplate_bot', confirm_delete_plate:'Ты точно хочешь удалить номерной знак?', popup_hint_RU:'Пример: <b>777</b> — Москва, <b>98</b> — СПб, <b>23</b> — Краснодар.', popup_hint_UA:'Пример: <b>AA</b> — Киев, <b>AT</b> — Ивано-Франковск, <b>AB</b> — Винница.<br>Пиши на английской раскладке.', popup_hint_BY:'Цифру 1–7. Пример: <b>7</b> — г. Минск, <b>1</b> — Брестская область.', popup_hint_KZ:'Код 01–20. Пример: <b>01</b> — Астана, <b>02</b> — Алматы.'}},
+  en:{translation:{nav_market:'MARKET', nav_play:'PLAY', nav_inventory:'MY PLATES', hdr_inventory:'MY PLATES', hdr_profile:'PROFILE', inv_title:'LICENSE PLATES', btn_spin:'SPIN', player_default:'Player', btn_cancel:'CANCEL', confirm_ok:'YES', profile_total_spun_short:'Total spins:', profile_reg_date_short:'Registration date:', ton_connect_btn:'Connect wallet', ton_connect_prompt:'Connect your wallet to trade', ton_copied:'Address copied', ton_copy_failed:'Failed to copy', ton_sdk_not_ready:'Wallet is still loading, try again in a second', settings_sound:'Play sounds', plate_db_title:'Plate database', plate_db_search_placeholder:'Search...', plate_db_search_title:'SEARCH', plate_db_go_search:'SEARCH', plate_db_searching:'Searching...', plate_db_search_soon:'Search results will appear here soon', plate_db_not_found:'Plate not found', zientres_channel_label:'Channel', zientres_chat_label:'Chat', country_ru:'Russia', country_ua:'Ukraine', country_by:'Belarus', country_kz:'Kazakhstan', plate_taken:'THIS PLATE IS TAKEN — SPIN AGAIN', spin_first:'SPIN THE PLATE FIRST', spin_after_region:'SPIN THE PLATE AFTER PICKING A REGION', inv_full:'INVENTORY FULL (MAX 10)', region_invalid:'PICK A VALID REGION', plate_already_saved:'PLATE ALREADY SAVED', saved_toast:'SAVED', inv_empty:'You have no plates', sent_toast:'SENT', popup_region_invalid_title:"REGION DOESN'T EXIST", popup_ok:'GOT IT', region_not_exist:'Region "{{code}}" does not exist', share_title:'SHARE', share_btn:'SHARE ON TELEGRAM', share_msg:'I got the plate {{plate}}!\nTry it yourself → @carzplate_bot', confirm_delete_plate:'Are you sure you want to delete this plate?', popup_hint_RU:'Example: <b>777</b> — Moscow, <b>98</b> — St. Petersburg, <b>23</b> — Krasnodar.', popup_hint_UA:'Example: <b>AA</b> — Kyiv, <b>AT</b> — Ivano-Frankivsk, <b>AB</b> — Vinnytsia.<br>Type using the English (Latin) keyboard layout.', popup_hint_BY:'A digit 1–7. Example: <b>7</b> — Minsk, <b>1</b> — Brest region.', popup_hint_KZ:'Code 01–20. Example: <b>01</b> — Astana, <b>02</b> — Almaty.'}},
+  zh:{translation:{nav_market:'市场', nav_play:'游戏', nav_inventory:'我的车牌', hdr_inventory:'我的车牌', hdr_profile:'个人资料', inv_title:'车牌', btn_spin:'转动', player_default:'玩家', btn_cancel:'取消', confirm_ok:'是', profile_total_spun_short:'总旋转次数：', profile_reg_date_short:'注册日期：', ton_connect_btn:'连接钱包', ton_connect_prompt:'连接钱包以进行交易', ton_copied:'地址已复制', ton_copy_failed:'复制失败', ton_sdk_not_ready:'钱包正在加载，请稍后重试', settings_sound:'播放音效', plate_db_title:'车牌数据库', plate_db_search_placeholder:'搜索...', plate_db_search_title:'搜索', plate_db_go_search:'搜索', plate_db_searching:'搜索中...', plate_db_search_soon:'搜索结果即将上线', plate_db_not_found:'未找到车牌', zientres_channel_label:'频道', zientres_chat_label:'聊天', country_ru:'俄罗斯', country_ua:'乌克兰', country_by:'白俄罗斯', country_kz:'哈萨克斯坦', plate_taken:'该车牌已被占用 — 请重新转动', spin_first:'请先转动车牌', spin_after_region:'选择地区后请重新转动车牌', inv_full:'车牌栏已满（最多10个）', region_invalid:'请选择有效地区', plate_already_saved:'该车牌已保存', saved_toast:'已保存', inv_empty:'你还没有车牌', sent_toast:'已发送', popup_region_invalid_title:'地区不存在', popup_ok:'知道了', region_not_exist:'地区「{{code}}」不存在', share_title:'分享', share_btn:'分享到 TELEGRAM', share_msg:'我抽到了车牌 {{plate}}！\n你也来试试 → @carzplate_bot', confirm_delete_plate:'确定要删除这个车牌吗？', popup_hint_RU:'例如：<b>777</b> — 莫斯科，<b>98</b> — 圣彼得堡，<b>23</b> — 克拉斯诺达尔。', popup_hint_UA:'例如：<b>AA</b> — 基辅，<b>AT</b> — 伊万诺-弗兰科夫斯克，<b>AB</b> — 文尼察。<br>请使用英文（拉丁字母）键盘输入。', popup_hint_BY:'数字 1–7。例如：<b>7</b> — 明斯克，<b>1</b> — 布列斯特州。', popup_hint_KZ:'代码 01–20。例如：<b>01</b> — 阿斯塔纳，<b>02</b> — 阿拉木图。'}},
+  uz:{translation:{nav_market:'BOZOR', nav_play:"OʻYIN", nav_inventory:'MENING RAQAMLARIM', hdr_inventory:'MENING RAQAMLARIM', hdr_profile:'PROFIL', inv_title:'DAVLAT RAQAMLARI', btn_spin:'AYLANTIRISH', player_default:"Oʻyinchi", btn_cancel:'BEKOR QILISH', confirm_ok:'HA', profile_total_spun_short:'Jami aylantirildi:', profile_reg_date_short:"Roʻyxatdan oʻtgan sana:", ton_connect_btn:'Hamyonni ulash', ton_connect_prompt:'Savdo qilish uchun hamyoningizni ulang', ton_copied:'Manzil nusxalandi', ton_copy_failed:'Nusxalab boʻlmadi', ton_sdk_not_ready:'Hamyon hali yuklanmoqda, birozdan keyin urinib koʻring', settings_sound:'Ovozlarni ijro etish', plate_db_title:'Raqamlar bazasi', plate_db_search_placeholder:'Qidiruv...', plate_db_search_title:'QIDIRUV', plate_db_go_search:'QIDIRISH', plate_db_searching:'Qidirilmoqda...', plate_db_search_soon:'Qidiruv natijalari tez orada paydo bo\'ladi', plate_db_not_found:'Raqam topilmadi', zientres_channel_label:'Kanal', zientres_chat_label:'Chat', country_ru:'Rossiya', country_ua:'Ukraina', country_by:'Belarus', country_kz:"Qozogʻiston", plate_taken:'BU RAQAM BAND — QAYTA AYLANTIRING', spin_first:'AVVAL RAQAMNI AYLANTIRING', spin_after_region:'HUDUDNI TANLAGANDAN KEYIN RAQAMNI AYLANTIRING', inv_full:'INVENTAR TOʻLDI (MAKS. 10)', region_invalid:"TOʻGʻRI HUDUDNI KOʻRSATING", plate_already_saved:'RAQAM ALLAQACHON SAQLANGAN', saved_toast:'SAQLANDI', inv_empty:"Sizda raqamlar yoʻq", sent_toast:'YUBORILDI', popup_region_invalid_title:'HUDUD MAVJUD EMAS', popup_ok:'TUSHUNARLI', region_not_exist:'«{{code}}» hududi mavjud emas', share_title:'ULASHISH', share_btn:'TELEGRAMDA ULASHISH', share_msg:'{{plate}} raqamini urdim!\nSiz ham urinib koʻring → @carzplate_bot', confirm_delete_plate:"Raqamni oʻchirmoqchimisiz?", popup_hint_RU:'Masalan: <b>777</b> — Moskva, <b>98</b> — Sankt-Peterburg, <b>23</b> — Krasnodar.', popup_hint_UA:'Masalan: <b>AA</b> — Kiyev, <b>AT</b> — Ivano-Frankivsk, <b>AB</b> — Vinnitsa.<br>Inglizcha (lotin) klaviatura tartibida yozing.', popup_hint_BY:'1–7 raqami. Masalan: <b>7</b> — Minsk, <b>1</b> — Brest viloyati.', popup_hint_KZ:'01–20 kodi. Masalan: <b>01</b> — Astana, <b>02</b> — Almati.'}},
+  ja:{translation:{nav_market:'マーケット', nav_play:'プレイ', nav_inventory:'マイナンバープレート', hdr_inventory:'マイナンバープレート', hdr_profile:'プロフィール', inv_title:'ナンバープレート', btn_spin:'まわす', player_default:'プレイヤー', btn_cancel:'キャンセル', confirm_ok:'はい', profile_total_spun_short:'合計回転数：', profile_reg_date_short:'登録日：', ton_connect_btn:'ウォレットを接続', ton_connect_prompt:'取引するにはウォレットを接続してください', ton_copied:'アドレスをコピーしました', ton_copy_failed:'コピーに失敗しました', ton_sdk_not_ready:'ウォレットを読み込み中です。少ししてからもう一度お試しください', settings_sound:'効果音を再生', plate_db_title:'ナンバープレートデータベース', plate_db_search_placeholder:'検索...', plate_db_search_title:'検索', plate_db_go_search:'検索', plate_db_searching:'検索中...', plate_db_search_soon:'検索結果はまもなく表示されます', plate_db_not_found:'ナンバーが見つかりません', zientres_channel_label:'チャンネル', zientres_chat_label:'チャット', country_ru:'ロシア', country_ua:'ウクライナ', country_by:'ベラルーシ', country_kz:'カザフスタン', plate_taken:'このナンバーは既に使われています — もう一度まわしてください', spin_first:'まずナンバープレートをまわしてください', spin_after_region:'地域を選んだ後にまわしてください', inv_full:'所持数が上限です（最大10枚）', region_invalid:'正しい地域を指定してください', plate_already_saved:'このナンバーは既に保存されています', saved_toast:'保存しました', inv_empty:'ナンバープレートがありません', sent_toast:'送信しました', popup_region_invalid_title:'その地域は存在しません', popup_ok:'わかりました', region_not_exist:'地域「{{code}}」は存在しません', share_title:'シェア', share_btn:'Telegramでシェア', share_msg:'ナンバー{{plate}}が当たりました！\nあなたも挑戦してみて → @carzplate_bot', confirm_delete_plate:'このナンバープレートを削除しますか？', popup_hint_RU:'例：<b>777</b> — モスクワ、<b>98</b> — サンクトペテルブルク、<b>23</b> — クラスノダール。', popup_hint_UA:'例：<b>AA</b> — キーウ、<b>AT</b> — イヴァーノ＝フランキーウシク、<b>AB</b> — ヴィーンヌィツャ。<br>英語（ローマ字）キーボードで入力してください。', popup_hint_BY:'数字1〜7。例：<b>7</b> — ミンスク市、<b>1</b> — ブレスト州。', popup_hint_KZ:'コード01〜20。例：<b>01</b> — アスタナ、<b>02</b> — アルマトイ。'}},
 
 };
 
@@ -2890,37 +2725,6 @@ async function _fillProfilePanel() {
 let tonConnectUIInstance = null;
 let tonWalletFullAddress = '';
 
-// ═══════════════════════════════════════════════════════════
-//  ЛИЦЕНЗИИ (баланс в шапке)
-// ═══════════════════════════════════════════════════════════
-// Лицензия — будущий NFT для минта номерного знака. Коллекция лицензий будет жить
-// в блокчейне TON; именно по ней в будущем будет пополняться/тратиться баланс.
-// Пока коллекция не задеплоена, fetchLicenseBalance — заглушка: хранит значение
-// локально по адресу кошелька, чтобы интерфейс уже был полностью готов к подключению
-// реального ончейн-запроса (одна точка замены, остальной код трогать не придётся).
-let licenseBalance = 0;
-
-function updateLicenseBalanceUI(){
-  const el = document.getElementById('license-balance-count');
-  if(el) el.textContent = licenseBalance;
-}
-
-function fetchLicenseBalance(walletAddress){
-  try{
-    const stored = localStorage.getItem('cp_license_bal_'+walletAddress);
-    return stored ? (parseInt(stored,10)||0) : 0;
-  }catch(e){ return 0; }
-}
-
-function openLicenseMenu(){
-  playClick();haptic('light');
-  document.getElementById('license-overlay')?.classList.add('show');
-}
-function closeLicenseMenu(){
-  playClick();haptic('light');
-  document.getElementById('license-overlay')?.classList.remove('show');
-}
-
 // ── ИНИЦИАЛИЗАЦИЯ ──
 // Создаёт экземпляр TonConnectUI и подписывается на изменение статуса подключения.
 // onStatusChange — это и есть встроенный механизм SDK для восстановления сессии: при
@@ -2983,17 +2787,13 @@ function updateTonWalletUI(wallet){
     if(addrEl) addrEl.textContent = friendly.slice(0,4)+'...'+friendly.slice(-4);
     btn.style.display='none';
     card.style.display='flex';
-    licenseBalance = fetchLicenseBalance(friendly);
     applyWalletAvatar(friendly);
   } else {
     tonWalletFullAddress='';
     btn.style.display='flex';
     card.style.display='none';
-    // Без подключённого кошелька лицензий существовать не может — баланс всегда сбрасывается в 0.
-    licenseBalance = 0;
     applyWalletAvatar(null);
   }
-  updateLicenseBalanceUI();
 }
 
 // ── АВАТАРКА КОШЕЛЬКА ──
@@ -3233,8 +3033,6 @@ function _setupSocket(){
     const myId = getMyId();
     if (myId) _socket.emit('identify', { telegram_id: myId });
   });
-  // Обработчик действий администратора (реалтайм через сокет)
-  _setupAdminNotifyListener(_socket);
 }
 
 // Парсим строку chars обратно в объект vals
@@ -3309,584 +3107,6 @@ function parsePlateChars(country,chars){
   setTimeout(loop, 600);
 })();
 
-
-// ══════════════════════════════════════════════════════════════
-//  ADMIN PANEL — ИГРОВАЯ СТАТИСТИКА
-// ══════════════════════════════════════════════════════════════
-const ADMIN_USERNAME = window.__ENV_ADMIN_USERNAME__||'';
-const GAME_API = window.__ENV_SERVER_URL__||'';
-
-let _admTitleTaps = 0, _admTitleTimer = null;
-let _admAllUsers = [];
-let _admCurrentTab = 'stats';
-let _admCurrentFilter = 'newest';
-let _admHideGuests = false;
-
-function admToggleGuests(){
-  _admHideGuests = !_admHideGuests;
-  const btn = document.getElementById('adm-filter-noguests');
-  if(btn) btn.classList.toggle('active', _admHideGuests);
-  admRenderUsers(_admGetSortedFiltered());
-}
-
-function admSetFilter(f){
-  _admCurrentFilter = f;
-  document.querySelectorAll('.adm-filter-btn').forEach(b=>b.classList.remove('active'));
-  const map = {newest:'adm-filter-newest', oldest:'adm-filter-oldest'};
-  document.getElementById(map[f])?.classList.add('active');
-  // Сохраняем состояние кнопки гостей
-  if(_admHideGuests) document.getElementById('adm-filter-noguests')?.classList.add('active');
-  admRenderUsers(_admGetSortedFiltered());
-}
-
-function _admGetSortedFiltered(){
-  const q = (document.getElementById('adm-search')?.value||'').trim();
-  let list = [..._admAllUsers];
-  // Скрыть гостей (guest_XXXXXXX)
-  if(_admHideGuests) list = list.filter(u => !String(u.telegram_id).startsWith('guest_'));
-  // Поиск по ID
-  if(q) list = list.filter(u => String(u.telegram_id).includes(q));
-  // Сортировка
-  if(_admCurrentFilter === 'newest'){
-    list.sort((a,b) => new Date(b.created_at||0) - new Date(a.created_at||0));
-  } else if(_admCurrentFilter === 'oldest'){
-    list.sort((a,b) => new Date(a.created_at||0) - new Date(b.created_at||0));
-  }
-  return list;
-}
-
-function admTitleTap(){
-  _admTitleTaps++;
-  clearTimeout(_admTitleTimer);
-  _admTitleTimer = setTimeout(()=>{ _admTitleTaps=0; }, 3000);
-  if(_admTitleTaps >= 5){
-    _admTitleTaps = 0;
-    const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
-    const uname = (tgUser?.username||'').toLowerCase();
-    if(uname !== ADMIN_USERNAME.toLowerCase()) return;
-    admOpen();
-  }
-}
-
-function admOpen(){
-  const el = document.getElementById('admin-overlay');
-  el.classList.add('open');
-  try{ Telegram?.WebApp?.disableVerticalSwipes?.(); }catch(e){}
-  const scrollEl = document.getElementById('adm-scroll-body');
-  if(scrollEl && !scrollEl._touchBlocked){
-    scrollEl._touchBlocked = true;
-    // Блокируем только touchmove чтобы скролл не всплывал к игре
-    // touchstart и touchend НЕ блокируем — иначе клики не работают
-    scrollEl.addEventListener('touchmove', e=>e.stopPropagation(), {passive:false});
-  }
-  admTab(_admCurrentTab);
-}
-
-function admClose(){
-  document.getElementById('admin-overlay').classList.remove('open');
-  // Восстанавливаем свайп Telegram
-  try{ Telegram?.WebApp?.enableVerticalSwipes?.(); }catch(e){}
-}
-
-function admTab(name){
-  _admCurrentTab = name;
-  document.querySelectorAll('.adm-tab').forEach((t,i)=>{
-    const tabs=['stats','users'];
-    t.classList.toggle('active', tabs[i]===name);
-  });
-  document.querySelectorAll('.adm-section').forEach(s=>s.classList.remove('active'));
-  document.getElementById('adm-'+name).classList.add('active');
-  // Сбрасываем скролл наверх при переключении
-  const sb = document.getElementById('adm-scroll-body');
-  if(sb) sb.scrollTop = 0;
-  if(name==='stats') admLoadStats();
-  if(name==='users') admLoadUsers();
-}
-
-async function admLoadStats(){
-  document.getElementById('adm-stats-body').innerHTML='<div class="adm-loader">Загрузка...</div>';
-  try{
-    const d = await fetch(GAME_API+'/stats/game').then(r=>r.json());
-    if(!d.ok) throw new Error(d.error||'ошибка');
-    const days = d.days || [];
-    let chartHtml = '';
-    if(days.length){
-      const maxVal = Math.max(...days.map(x=>Number(x.new_players)), 1);
-      chartHtml = `
-        <div style="margin-top:18px">
-          <div style="font-family:'Bebas Neue';font-size:13px;color:var(--muted);letter-spacing:1px;margin-bottom:10px">НОВЫЕ ИГРОКИ — ПОСЛЕДНИЕ 30 ДНЕЙ</div>
-          <div style="display:flex;align-items:flex-end;gap:3px;height:60px;overflow-x:auto;padding-bottom:4px">
-            ${days.map(day=>{
-              const h = Math.max(4, Math.round((Number(day.new_players)/maxVal)*56));
-              return `<div style="display:flex;flex-direction:column;align-items:center;flex-shrink:0">
-                <div title="${day.date}: +${day.new_players}" style="width:8px;height:${h}px;background:var(--accent);border-radius:2px 2px 0 0;opacity:.85"></div>
-              </div>`;
-            }).join('')}
-          </div>
-          <div style="display:flex;justify-content:space-between;margin-top:4px">
-            <span style="font-size:10px;color:var(--muted)">${days[0]?.date||''}</span>
-            <span style="font-size:10px;color:var(--muted)">${days[days.length-1]?.date||''}</span>
-          </div>
-        </div>`;
-    }
-    document.getElementById('adm-stats-body').innerHTML=`
-      <div class="adm-stat-row">
-        <span class="adm-stat-label">👥 Всего игроков</span>
-        <span class="adm-stat-val">${d.total_players}</span>
-      </div>
-      <div class="adm-stat-row">
-        <span class="adm-stat-label">🚗 Номеров сохранено</span>
-        <span class="adm-stat-val">${d.total_plates}</span>
-      </div>
-      ${chartHtml}
-    `;
-  }catch(e){
-    document.getElementById('adm-stats-body').innerHTML=`<div class="adm-err">Ошибка: ${e.message}</div>`;
-  }
-}
-
-async function admLoadUsers(){
-  document.getElementById('adm-users-body').innerHTML='<div class="adm-loader">Загрузка...</div>';
-  document.getElementById('adm-players-count').style.display='none';
-  try{
-    const d = await fetch(GAME_API+'/stats/players').then(r=>r.json());
-    if(!d.ok) throw new Error(d.error||'ошибка');
-    _admAllUsers = d.players||[];
-    const counter = document.getElementById('adm-players-count');
-    counter.style.display='flex';
-    document.getElementById('adm-players-num').textContent = _admAllUsers.length;
-    admRenderUsers(_admGetSortedFiltered());
-  }catch(e){
-    document.getElementById('adm-users-body').innerHTML=`<div class="adm-err">Ошибка: ${e.message}</div>`;
-  }
-}
-
-function admRenderUsers(users){
-  if(!users.length){
-    document.getElementById('adm-users-body').innerHTML='<div class="adm-loader">Нет игроков</div>';
-    return;
-  }
-  // Обновляем счётчик по текущему отфильтрованному списку
-  document.getElementById('adm-players-num').textContent = users.length;
-  document.getElementById('adm-users-body').innerHTML = users.map((u,i)=>{
-    const dateStr = u.created_at
-      ? new Date(u.created_at).toLocaleDateString('ru',{day:'2-digit',month:'2-digit',year:'numeric'})
-      : '—';
-    const name = u.username && u.username !== 'Игрок' ? '@'+u.username : 'без username';
-    return `<div class="adm-user-row" 
-      ontouchstart="this._tx=event.touches[0].clientX;this._ty=event.touches[0].clientY;this._scroll=false"
-      ontouchmove="if(Math.abs(event.touches[0].clientY-this._ty)>8||Math.abs(event.touches[0].clientX-this._tx)>8)this._scroll=true"
-      ontouchend="if(!this._scroll){admOpenProfile('${u.telegram_id}','${name.replace(/'/g,"\\'")}')}"
-      style="cursor:pointer">
-      <div style="flex:1;min-width:0;overflow:hidden">
-        <div style="display:flex;align-items:center;gap:6px">
-          <span class="adm-user-name">${name}</span>
-          ${Number(u.plates_count)>0?`<span style="font-size:11px;color:var(--muted)">🚗${u.plates_count}</span>`:''}
-        </div>
-        <div class="adm-user-id" ontouchend="event.stopPropagation();admCopyId('${u.telegram_id}')" style="cursor:pointer">
-          ID: ${u.telegram_id} 📋
-        </div>
-        <div style="font-size:11px;color:var(--muted)">${dateStr}</div>
-      </div>
-    </div>`;
-  }).join('');
-}
-
-function admFilterUsers(){
-  admRenderUsers(_admGetSortedFiltered());
-}
-
-function admCopyId(id){
-  navigator.clipboard?.writeText(id).then(()=>showToast('ID скопирован','success')).catch(()=>showToast(id,'info'));
-}
-
-// ── ПРОФИЛЬ ИГРОКА ──
-let _admProfileData = null;
-let _admProfileTab = 'info';
-
-async function admOpenProfile(telegram_id, username){
-  const modal = document.getElementById('adm-profile-modal');
-  document.getElementById('adm-profile-title').textContent = username || telegram_id;
-  document.getElementById('adm-profile-body').innerHTML = '<div class="adm-loader">Загрузка...</div>';
-  modal.style.display = 'flex';
-  try{ Telegram?.WebApp?.disableVerticalSwipes?.(); }catch(e){}
-  const body = document.getElementById('adm-profile-body');
-  if(body && !body._touchBlocked){
-    body._touchBlocked = true;
-    body.addEventListener('touchmove', e=>e.stopPropagation(), {passive:false});
-  }
-  try{
-    const d = await fetch(GAME_API+'/stats/player/'+telegram_id).then(r=>r.json());
-    if(!d.ok) throw new Error(d.error||'ошибка');
-    _admProfileData = d;
-    _admProfileTab = 'info';
-    admProfileTab('info');
-  }catch(e){
-    document.getElementById('adm-profile-body').innerHTML=`<div class="adm-err">Ошибка: ${e.message}</div>`;
-  }
-}
-
-// ─── CUSTOM DROPDOWN ────────────────────────────────────────
-// admDD(id, options, onChange)
-// options: [{value, label}]
-// Создаёт/обновляет кастомный дропдаун. Возвращает текущее value через admDDGet(id)
-const _admDDState = {}; // id → {value, options}
-
-function admDDRender(id, options, currentVal){
-  _admDDState[id] = { value: currentVal ?? options[0]?.value, options };
-  const wrap = document.getElementById('adm-dd-'+id);
-  if(!wrap) return;
-  const cur = options.find(o=>o.value===_admDDState[id].value) || options[0];
-  wrap.innerHTML = `
-    <button class="adm-dd-btn" onclick="admDDToggle('${id}')" type="button">${cur?.label||'—'}</button>
-    <div class="adm-dd-list" id="adm-dd-list-${id}">
-      ${options.map(o=>`<div class="adm-dd-opt${o.value===_admDDState[id].value?' sel':''}" data-ddid="${id}" data-val="${o.value.replace(/"/g,'&quot;')}">${o.label}</div>`).join('')}
-    </div>`;
-  // навешиваем обработчики через JS, без inline onclick — безопасно для любых значений
-  wrap.querySelectorAll('.adm-dd-opt').forEach(el=>{
-    el.addEventListener('click', function(){
-      admDDSelect(this.dataset.ddid, this.dataset.val);
-    });
-  });
-}
-
-function admDDToggle(id){
-  // Закрываем все другие
-  document.querySelectorAll('.adm-dd-list.open').forEach(el=>{
-    if(el.id!=='adm-dd-list-'+id) el.classList.remove('open');
-  });
-  document.getElementById('adm-dd-list-'+id)?.classList.toggle('open');
-}
-
-function admDDSelect(id, value){
-  if(!_admDDState[id]) return;
-  _admDDState[id].value = value;
-  document.getElementById('adm-dd-list-'+id)?.classList.remove('open');
-  // Обновляем кнопку и подсветку
-  const opt = _admDDState[id].options.find(o=>o.value===value);
-  const wrap = document.getElementById('adm-dd-'+id);
-  if(wrap){
-    const btn = wrap.querySelector('.adm-dd-btn');
-    if(btn) btn.textContent = opt?.label||value;
-    wrap.querySelectorAll('.adm-dd-opt').forEach(el=>{
-      el.classList.toggle('sel', el.textContent===opt?.label);
-    });
-  }
-  // При смене страны — переключаем поля и обновляем превью
-  if(id === 'plate-country'){
-    ['RU','UA','BY','KZ'].forEach(c=>{
-      const el = document.getElementById('adm-plate-fields-'+c);
-      if(el) el.style.display = c===value ? '' : 'none';
-    });
-    admPlatePreview();
-  }
-}
-
-function admDDGet(id){ return _admDDState[id]?.value; }
-
-// Закрывать дропдауны при клике вне
-document.addEventListener('click', e=>{
-  if(!e.target.closest('.adm-dd')){
-    document.querySelectorAll('.adm-dd-list.open').forEach(el=>el.classList.remove('open'));
-  }
-});
-
-function admCloseProfile(){
-  document.getElementById('adm-profile-modal').style.display = 'none';
-}
-
-// ─── ADMIN ACTION HELPERS ───────────────────────────────────
-function _admToast(msg, ok=true){ showToast(msg, ok?'success':'error'); }
-
-// ─── ADMIN PLATE PREVIEW ────────────────────────────────────
-function admPlatePreview(){
-  const country = admDDGet('plate-country') || 'RU';
-  const v = admGetPlateVals(country);
-  if(!v) return;
-  const previewEl = document.getElementById('adm-plate-preview');
-  if(!previewEl) return;
-  previewEl.innerHTML = plateHTML(country, v.vals, v.rc, '', true);
-}
-
-function admGetPlateVals(country){
-  const g = id => (document.getElementById(id)?.value||'').trim().toUpperCase();
-  let vals={}, rc='', rname='', text='';
-  if(country==='RU'){
-    vals={l1:g('adm-ru-l1'),d1:g('adm-ru-d1'),d2:g('adm-ru-d2'),d3:g('adm-ru-d3'),l2:g('adm-ru-l2'),l3:g('adm-ru-l3')};
-    rc=g('adm-ru-rc');
-    text=`${vals.l1} ${vals.d1}${vals.d2}${vals.d3} ${vals.l2}${vals.l3}`;
-  } else if(country==='UA'){
-    // UA формат: RC(2 буквы региона) + d1d2d3d4(4 цифры) + l1l2(2 буквы)
-    // rc = регионные буквы (АА, КА...) — показываются в ua-body слева
-    const r1raw = g('adm-ua-r1'); // до 2 букв — это rc
-    vals={d1:g('adm-ua-d1'),d2:g('adm-ua-d2'),d3:g('adm-ua-d3'),d4:g('adm-ua-d4'),l1:g('adm-ua-l1'),l2:g('adm-ua-l2')};
-    rc = r1raw; // регион = буквенный префикс
-    text=`${rc} ${vals.d1}${vals.d2}${vals.d3}${vals.d4} ${vals.l1}${vals.l2}`;
-  } else if(country==='BY'){
-    vals={d1:g('adm-by-d1'),d2:g('adm-by-d2'),d3:g('adm-by-d3'),d4:g('adm-by-d4'),l1:g('adm-by-l1'),l2:g('adm-by-l2')};
-    rc=g('adm-by-rc');
-    text=`${vals.d1}${vals.d2}${vals.d3}${vals.d4} ${vals.l1}${vals.l2}-${rc}`;
-  } else if(country==='KZ'){
-    vals={d1:g('adm-kz-d1'),d2:g('adm-kz-d2'),d3:g('adm-kz-d3'),l1:g('adm-kz-l1'),l2:g('adm-kz-l2'),l3:g('adm-kz-l3')};
-    rc=g('adm-kz-rc');
-    text=`${vals.d1}${vals.d2}${vals.d3} ${vals.l1}${vals.l2}${vals.l3}`;
-  }
-  return {vals, rc, rname, text};
-}
-
-async function admGivePlate(tid){
-  const country = admDDGet('plate-country') || 'RU';
-  const v = admGetPlateVals(country);
-  if(!v) return _admToast('Ошибка полей','error');
-  // Проверяем что хотя бы что-то заполнено
-  const hasData = Object.values(v.vals).some(x=>x);
-  if(!hasData) return _admToast('Заполни поля номера','error');
-  const flags={RU:'🇷🇺',UA:'🇺🇦',BY:'🇧🇾',KZ:'🇰🇿'};
-  const newPlate={
-    country, vals:v.vals, rc:v.rc, rname:v.rname,
-    flag:flags[country], text:v.text.trim(),
-    plate_key:'adm_'+Date.now()
-  };
-  try{
-    const r = await fetch(`${SERVER_URL}/admin/give_plate`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({admin_id:getMyId(),target_id:tid,plate:newPlate})
-    }).then(r=>r.json());
-    if(!r.ok) throw new Error(r.error||'ошибка');
-    _admToast(`✅ Номер ${newPlate.text} выдан`);
-    const d=await fetch(GAME_API+'/stats/player/'+tid).then(r=>r.json());
-    if(d.ok){_admProfileData=d;admProfileTab('info');}
-  }catch(e){ _admToast('Ошибка: '+e.message, false); }
-}
-
-async function admTakePlate(tid){
-  const sel = admDDGet('plate-remove-idx');
-  if(sel == null) return;
-  const idx = parseInt(sel);
-  const plates=_admProfileData?.plates||[];
-  const pl=plates[idx];
-  if(!pl) return _admToast('Номер не найден','error');
-  try{
-    // Логируем что именно шлём — plate_key может быть в разных полях
-    const plateKey = pl.plate_key || pl.id || pl.key || String(idx);
-    const r = await fetch(`${SERVER_URL}/admin/remove_plate`,{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({admin_id:getMyId(),target_id:tid,plate_key:plateKey})
-    }).then(r=>r.json());
-    if(!r.ok) throw new Error(r.error||'ошибка');
-    _admToast(`✅ Номер ${pl.text||pl.chars||''} отобран`);
-    const d=await fetch(GAME_API+'/stats/player/'+tid).then(r=>r.json());
-    if(d.ok){_admProfileData=d;admProfileTab('info');}
-  }catch(e){ _admToast('Ошибка: '+e.message, false); }
-}
-
-function _setupAdminNotifyListener(s){
-  s.on('admin_notify',({type,amount,plate})=>{
-    if(type==='admin_plate_give'&&plate){
-      // Проверяем что такого plate_key ещё нет (защита от дублей)
-      const already = inventory.some(p=>p.plate_key===plate.plate_key);
-      if(!already && inventory.length < 10){
-        inventory.push({...plate, isAdminGift:true});
-      }
-      showToast((window.i18next&&i18next.isInitialized)?i18next.t('admin_gave_plate',{plate:plate.text||''}):`🚗 Администратор выдал номер ${plate.text||''}`, 'success');
-    } else if(type==='admin_plate_take'&&plate){
-      // Удаляем номер из локального инвентаря
-      const idx = inventory.findIndex(p=>p.plate_key===plate.plate_key);
-      if(idx!==-1) inventory.splice(idx,1);
-      showToast((window.i18next&&i18next.isInitialized)?i18next.t('admin_took_plate',{plate:plate.text||''}):`🗑 Администратор отобрал номер ${plate.text||''}`, 'error');
-    }
-    saveGame();
-    renderInventory?.();
-  });
-}
-
-function admProfileTab(tab){
-  _admProfileTab = tab;
-  ['info','inv','logs'].forEach(t=>{
-    document.getElementById('apt-'+t)?.classList.toggle('active', t===tab);
-  });
-  const d = _admProfileData;
-  if(!d) return;
-  const body = document.getElementById('adm-profile-body');
-
-  if(tab === 'info'){
-    const p = d.player;
-    const lastLogin = p.updated_at ? new Date(p.updated_at).toLocaleString('ru') : '—';
-    const regDate   = p.created_at ? new Date(p.created_at).toLocaleString('ru') : '—';
-    const tid = p.telegram_id;
-    const plates = d.plates || [];
-    const platesOpts = plates.map((pl,i)=>{
-      const chars = pl.text || pl.chars || '?';
-      const rc = pl.rc || pl.region || '';
-      return `<option value="${i}">${chars} ${rc}</option>`;
-    }).join('');
-
-    body.innerHTML = `
-      <div class="adm-prow"><span class="adm-prow-label">👤 Username</span><span class="adm-prow-val">${p.username && p.username!=='Игрок' ? '@'+p.username : '—'}</span></div>
-      <div class="adm-prow"><span class="adm-prow-label">🆔 ID</span><span class="adm-prow-val" onclick="admCopyId('${p.telegram_id}')" style="cursor:pointer">${p.telegram_id} 📋</span></div>
-      <div class="adm-prow"><span class="adm-prow-label">🚗 Номеров</span><span class="adm-prow-val">${d.plates.length}</span></div>
-      <div class="adm-prow"><span class="adm-prow-label">📅 Регистрация</span><span class="adm-prow-val">${regDate}</span></div>
-      <div class="adm-prow"><span class="adm-prow-label">🕐 Последний заход</span><span class="adm-prow-val">${lastLogin}</span></div>
-
-      <div class="adm-actions-section">
-        <div class="adm-actions-title">⚙️ Действия с игроком</div>
-
-        <!-- НОМЕР - ВЫДАТЬ -->
-        <div class="adm-action-group">
-          <div class="adm-action-group-title">🚗 Выдать номер</div>
-          <div class="adm-action-label">Страна</div>
-          <div class="adm-action-row">
-            <div class="adm-dd" id="adm-dd-plate-country"></div>
-          </div>
-
-          <!-- RU поля -->
-          <div id="adm-plate-fields-RU">
-            <div class="adm-action-label" style="margin-top:8px">Буква · 3 цифры · 2 буквы · регион</div>
-            <div class="adm-plate-row" style="gap:6px">
-              <input class="adm-plate-mini-inp" id="adm-ru-l1" placeholder="А" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ru-d1" placeholder="7" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ru-d2" placeholder="7" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ru-d3" placeholder="7" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ru-l2" placeholder="Х" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ru-l3" placeholder="Х" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ru-rc" placeholder="77" maxlength="3" inputmode="numeric" style="max-width:52px" oninput="admPlatePreview()">
-            </div>
-          </div>
-
-          <!-- UA поля -->
-          <div id="adm-plate-fields-UA" style="display:none">
-            <div class="adm-action-label" style="margin-top:8px">Регион (2 буквы) · 4 цифры · 2 буквы</div>
-            <div class="adm-plate-row" style="gap:6px">
-              <input class="adm-plate-mini-inp" id="adm-ua-r1" placeholder="АА" maxlength="2" style="max-width:56px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ua-d1" placeholder="1" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ua-d2" placeholder="2" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ua-d3" placeholder="3" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ua-d4" placeholder="4" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ua-l1" placeholder="В" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-ua-l2" placeholder="В" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-            </div>
-          </div>
-
-          <!-- BY поля -->
-          <div id="adm-plate-fields-BY" style="display:none">
-            <div class="adm-action-label" style="margin-top:8px">4 цифры · 2 буквы · регион (1 цифра)</div>
-            <div class="adm-plate-row" style="gap:6px">
-              <input class="adm-plate-mini-inp" id="adm-by-d1" placeholder="3" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-by-d2" placeholder="3" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-by-d3" placeholder="0" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-by-d4" placeholder="0" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-by-l1" placeholder="К" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-by-l2" placeholder="В" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-by-rc" placeholder="6" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-            </div>
-          </div>
-
-          <!-- KZ поля -->
-          <div id="adm-plate-fields-KZ" style="display:none">
-            <div class="adm-action-label" style="margin-top:8px">3 цифры · 3 буквы · регион (2 цифры)</div>
-            <div class="adm-plate-row" style="gap:6px">
-              <input class="adm-plate-mini-inp" id="adm-kz-d1" placeholder="2" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-kz-d2" placeholder="1" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-kz-d3" placeholder="4" maxlength="1" inputmode="numeric" style="max-width:44px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-kz-l1" placeholder="Т" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-kz-l2" placeholder="G" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-kz-l3" placeholder="E" maxlength="1" style="max-width:48px" oninput="admPlatePreview()">
-              <input class="adm-plate-mini-inp" id="adm-kz-rc" placeholder="18" maxlength="2" inputmode="numeric" style="max-width:52px" oninput="admPlatePreview()">
-            </div>
-          </div>
-
-          <!-- Живой предпросмотр -->
-          <div id="adm-plate-preview" style="margin:14px 0 6px;transform:scale(0.85);transform-origin:left center;min-height:90px"></div>
-
-          <div class="adm-action-row" style="margin-top:4px">
-            <button class="adm-action-btn give" style="flex:1" onclick="admGivePlate('${tid}')">🚗 Выдать номер</button>
-          </div>
-        </div>
-
-        <!-- НОМЕР - ОТОБРАТЬ -->
-        <div class="adm-action-group">
-          <div class="adm-action-group-title">🗑 Отобрать номер</div>
-          ${plates.length ? `
-          <div class="adm-action-row">
-            <div class="adm-dd" id="adm-dd-plate-remove-idx"></div>
-            <button class="adm-action-btn take" onclick="admTakePlate('${tid}')">Отобрать</button>
-          </div>` : `<div style="font-size:13px;color:var(--muted)">Нет номеров</div>`}
-        </div>
-
-      </div>
-    `;
-    // Инициализируем кастомные дропдауны
-    admDDRender('plate-country', [
-      {value:'RU', label:'🇷🇺 Россия'},
-      {value:'UA', label:'🇺🇦 Украина'},
-      {value:'BY', label:'🇧🇾 Беларусь'},
-      {value:'KZ', label:'🇰🇿 Казахстан'},
-    ], 'RU');
-    // Показываем поля для RU по умолчанию, остальные скрыты
-    ['UA','BY','KZ'].forEach(c=>{
-      const el=document.getElementById('adm-plate-fields-'+c);
-      if(el) el.style.display='none';
-    });
-    // Первый предпросмотр
-    setTimeout(admPlatePreview, 50);
-
-    const platesDDOpts = plates.map((pl,i)=>{
-      // Строим читаемый текст из vals + rc (надёжнее чем pl.text)
-      const v = pl.vals || {};
-      const rc = pl.rc || pl.region || '';
-      const c = pl.country || 'RU';
-      let label = pl.text || pl.chars || '';
-      if(!label){
-        if(c==='RU') label=`${v.l1||''}${v.d1||''}${v.d2||''}${v.d3||''}${v.l2||''}${v.l3||''}`;
-        else if(c==='UA') label=`${rc}${v.d1||''}${v.d2||''}${v.d3||''}${v.d4||''}${v.l1||''}${v.l2||''}`;
-        else if(c==='BY') label=`${v.d1||''}${v.d2||''}${v.d3||''}${v.d4||''}${v.l1||''}${v.l2||''}`;
-        else if(c==='KZ') label=`${v.d1||''}${v.d2||''}${v.d3||''}${v.l1||''}${v.l2||''}${v.l3||''}`;
-      }
-      const flagMap={RU:'🇷🇺',UA:'🇺🇦',BY:'🇧🇾',KZ:'🇰🇿'};
-      const flag = flagMap[c]||'';
-      const regionSuffix = rc && c!=='UA' ? ` · ${rc}` : '';
-      return { value: String(i), label: `${flag} ${label}${regionSuffix}` };
-    });
-    if(platesDDOpts.length) admDDRender('plate-remove-idx', platesDDOpts, '0');
-  }
-
-  else if(tab === 'inv'){
-    const ownedPlates = d.plates || [];
-    if(!ownedPlates.length){ body.innerHTML='<div class="adm-loader">Нет номеров</div>'; return; }
-    body.innerHTML = ownedPlates.map(pl=>{
-      // Поддерживаем оба формата: inventory[] из localStorage и plates[] из БД
-      const chars = pl.text || pl.chars || '—';
-      const region = pl.rc || pl.rname || pl.region || '—';
-      const country = pl.country || '—';
-      return `<div class="adm-plate-card">
-        <div>
-          <div style="font-family:'Bebas Neue';font-size:16px;letter-spacing:1px">${chars} <span style="color:var(--muted);font-size:13px">${region} · ${country}</span></div>
-        </div>
-      </div>`;
-    }).join('');
-  }
-
-  else if(tab === 'logs'){
-    if(!d.logs.length){ body.innerHTML='<div class="adm-loader">Логов нет (появятся после следующего входа)</div>'; return; }
-    const icons = { login:'🔑', balance:'💰', plate_claim:'🚗' };
-    const labels = { login:'Вход в игру', balance:'Изменение баланса', plate_claim:'Номер получен' };
-    body.innerHTML = d.logs.map(log=>{
-      const dt = new Date(log.created_at).toLocaleString('ru');
-      const det = log.details || {};
-      let sub = '';
-      if(log.action==='balance') sub = `${det.diff>0?'+':''}${det.diff} монет (было ${det.old_coins})`;
-      if(log.action==='plate_claim') sub = `${det.chars} · ${det.region} · ${det.country}`;
-      return `<div class="adm-log-row">
-        <span class="adm-log-icon">${icons[log.action]||'📌'}</span>
-        <div style="flex:1;min-width:0">
-          <div style="font-size:13px;color:var(--text)">${labels[log.action]||log.action}</div>
-          ${sub?`<div style="font-size:12px;color:var(--muted)">${sub}</div>`:''}
-          <div class="adm-log-time">${dt}</div>
-        </div>
-      </div>`;
-    }).join('');
-  }
-}
 
 window.addEventListener('DOMContentLoaded',()=>{
   loadThemeLangPrefs();
