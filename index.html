@@ -826,10 +826,14 @@ body,.events-overlay,.bpanel-overlay{
       </div>
       <button onclick="toggleProfileStatsInfo(event)" title="Информация" style="position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:10px;border:1px solid var(--btn-neutral-border);background:var(--btn-neutral-bg);color:var(--btn-neutral-text);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px;font-weight:700;line-height:1;padding:0">ℹ</button>
       <button onclick="askDisconnectTonWallet()" title="Отключить кошелёк" style="position:absolute;top:48px;right:10px;width:34px;height:34px;border-radius:10px;border:1px solid rgba(224,80,80,.4);background:rgba(224,80,80,.14);color:#e0504e;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0">
-        <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M11.2 14.5a5 5 0 0 0 6.34-.56l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-          <path d="M12.8 9.5a5 5 0 0 0-6.34.56l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71"/>
-          <path d="M10.5 10.5l1 2.5-2 .5 2 1-1 2.5" stroke-width="1.6"/>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round">
+          <circle cx="7.8" cy="16.2" r="4.5" stroke-width="2.6"/>
+          <path d="M14.4 8.7A4.5 4.5 0 1 1 9.1 7.5" stroke-width="2.6"/>
+          <g fill="currentColor" stroke="none">
+            <path d="M8 5.2l2 3-3.6-.9z"/>
+            <path d="M12 2l1.1 3.8-3.4-1.5z"/>
+            <path d="M16 4.4l-1.1 3.6-2.5-2.9z"/>
+          </g>
         </svg>
       </button>
       <div id="profile-stats-pop" onclick="event.stopPropagation()" style="display:none;position:absolute;top:86px;right:10px;z-index:20;width:220px;background:var(--bg);border:1px solid var(--accent-border-30);border-radius:14px;box-shadow:0 12px 32px rgba(0,0,0,.18);padding:12px;flex-direction:column;gap:9px">
@@ -845,10 +849,14 @@ body,.events-overlay,.bpanel-overlay{
   <div class="confirm-box" style="position:relative;overflow:hidden">
     <div class="bg-pattern-inner"><div class="bg-pattern-dots"></div><div class="bg-pattern-strokes"></div><div class="bg-pattern-strokes2"></div><div class="bg-pattern-mid"></div><div class="bg-pattern-wave"></div></div>
     <div style="position:relative;z-index:1;display:flex;justify-content:center;margin-bottom:12px">
-      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#e0504e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M11.2 14.5a5 5 0 0 0 6.34-.56l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
-        <path d="M12.8 9.5a5 5 0 0 0-6.34.56l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71"/>
-        <path d="M10.5 10.5l1 2.5-2 .5 2 1-1 2.5" stroke-width="1.6"/>
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#e0504e" stroke-linecap="round">
+        <circle cx="7.8" cy="16.2" r="4.5" stroke-width="2.6"/>
+        <path d="M14.4 8.7A4.5 4.5 0 1 1 9.1 7.5" stroke-width="2.6"/>
+        <g fill="#e0504e" stroke="none">
+          <path d="M8 5.2l2 3-3.6-.9z"/>
+          <path d="M12 2l1.1 3.8-3.4-1.5z"/>
+          <path d="M16 4.4l-1.1 3.6-2.5-2.9z"/>
+        </g>
       </svg>
     </div>
     <div class="confirm-body" id="wallet-disconnect-text" style="position:relative;z-index:1;font-size:14px"></div>
