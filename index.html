@@ -2743,15 +2743,57 @@ function initTonConnect(attemptsLeft){
     else console.warn('TonConnect UI SDK не загрузился');
     return;
   }
+
   const manifestUrl = new URL('tonconnect-manifest.json', window.location.href).toString();
-  tonConnectUIInstance = new TON_CONNECT_UI.TonConnectUI({ manifestUrl });
-  tonConnectUIInstance.onStatusChange(updateTonWalletUI);
+
+  try{
+    // Явно включаем восстановление сессии. После возврата из Tonkeeper
+    // Telegram Mini App может получить фокус раньше, чем SDK закончит
+    // восстановление bridge-сессии.
+    tonConnectUIInstance = new TON_CONNECT_UI.TonConnectUI({
+      manifestUrl,
+      restoreConnection: true
+    });
+
+    // Единственная точка обработки статуса кошелька.
+    // Важно: закрываем внутренний TonConnect modal вручную после успешного
+    // ответа кошелька. Это убирает состояние "Continue in Tonkeeper...",
+    // если Telegram/Android вернул приложение, но UI-модалка не успела
+    // закрыться сама.
+    tonConnectUIInstance.onStatusChange((wallet)=>{
+      updateTonWalletUI(wallet);
+
+      if(wallet && wallet.account && wallet.account.address){
+        setTimeout(()=>{
+          try{ tonConnectUIInstance?.closeModal?.(); }catch(e){}
+        }, 0);
+      }
+    }, (error)=>{
+      console.warn('TonConnect status error:', error);
+    });
+
+    // Не считаем "ещё не восстановлено" состоянием "кошелёк отключён".
+    // После восстановления ещё раз синхронизируем собственный интерфейс.
+    if(tonConnectUIInstance.connectionRestored){
+      tonConnectUIInstance.connectionRestored.then((restored)=>{
+        try{
+          if(restored && tonConnectUIInstance?.wallet){
+            updateTonWalletUI(tonConnectUIInstance.wallet);
+            tonConnectUIInstance.closeModal?.();
+          }
+        }catch(e){}
+      }).catch(()=>{});
+    }
+  }catch(e){
+    tonConnectUIInstance = null;
+    console.error('TonConnect constructor error:', e);
+  }
 }
 
 // ── ПОДКЛЮЧЕНИЕ ──
 // Открывает стандартное модальное окно выбора кошелька TonConnect (Tonkeeper, MyTonWallet и т.д.) —
 // тот же флоу, что и в других TON-приложениях.
-function connectTonWallet(){
+async function connectTonWallet(){
   playClick();haptic('light');
   if(!tonConnectUIInstance){
     // SDK мог ещё не успеть инициализироваться — пробуем прямо сейчас, а не молчим.
@@ -2761,7 +2803,14 @@ function connectTonWallet(){
     showToast(tApp('ton_sdk_not_ready'),'error');
     return;
   }
-  tonConnectUIInstance.openModal();
+
+  try{
+    // Не создаём второй запрос, если модалка уже открыта.
+    if(tonConnectUIInstance.modalState?.status==='opened') return;
+    await tonConnectUIInstance.openModal();
+  }catch(e){
+    console.warn('TonConnect openModal error:', e);
+  }
 }
 
 // ── ОТКЛЮЧЕНИЕ ──
@@ -2889,11 +2938,54 @@ if(document.readyState==='loading'){
 function bootTonConnect(){
   try{ initTonConnect(); }catch(e){ console.error('TonConnect init error:', e); }
 }
+
+// Android/Telegram: после возврата из Tonkeeper WebView может получить
+// visibility/focus раньше, чем bridge-сессия успеет восстановиться.
+// Повторно запускаем восстановление только если кошелёк всё ещё не виден.
+// Это не создаёт новый TonConnectUI — используется тот же singleton.
+let _tonReconnectTimer=null;
+let _tonReconnectRunning=false;
+function recoverTonConnection(){
+  if(_tonReconnectRunning || !tonConnectUIInstance) return;
+  if(tonConnectUIInstance.connected || tonConnectUIInstance.wallet) return;
+
+  _tonReconnectRunning=true;
+  const connector=tonConnectUIInstance.connector;
+  try{
+    if(connector && typeof connector.restoreConnection==='function'){
+      Promise.resolve(connector.restoreConnection()).catch(()=>{}).finally(()=>{
+        _tonReconnectRunning=false;
+      });
+    }else{
+      _tonReconnectRunning=false;
+    }
+  }catch(e){
+    _tonReconnectRunning=false;
+  }
+}
+
+function scheduleTonConnectionRecovery(){
+  if(_tonReconnectTimer) clearTimeout(_tonReconnectTimer);
+  _tonReconnectTimer=setTimeout(()=>{
+    _tonReconnectTimer=null;
+    recoverTonConnection();
+    // На Android bridge иногда появляется чуть позже первого кадра.
+    setTimeout(recoverTonConnection, 1200);
+  }, 250);
+}
+
 if(document.readyState==='loading'){
   document.addEventListener('DOMContentLoaded', bootTonConnect);
 }else{
   bootTonConnect();
 }
+
+// Ключевой момент для возврата из Tonkeeper в Telegram Mini App.
+document.addEventListener('visibilitychange', ()=>{
+  if(document.visibilityState==='visible') scheduleTonConnectionRecovery();
+});
+window.addEventListener('pageshow', scheduleTonConnectionRecovery);
+window.addEventListener('focus', scheduleTonConnectionRecovery);
 
 function toggleProfileStatsInfo(e){
   if(e) e.stopPropagation();
