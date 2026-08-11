@@ -323,23 +323,23 @@ body,.events-overlay,.bpanel-overlay{
 .bottom-nav{
   position:fixed;bottom:0;left:0;right:0;
   background:var(--hdr-bg);
-  padding:10px 6px 16px;
+  padding:6px 6px 10px;
   display:flex;gap:0;align-items:stretch;
   z-index:500;
 }
 .bnav-btn{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:4px;padding:10px 4px;
+  gap:2px;padding:6px 2px;
   background:transparent;border:none;border-radius:12px;
   cursor:pointer;transition:color .2s;user-select:none;
-  font-family:'Bebas Neue';letter-spacing:.8px;font-size:10px;color:var(--btn-neutral-text);
+  font-family:'Bebas Neue';letter-spacing:.8px;font-size:9px;color:var(--btn-neutral-text);
   -webkit-tap-highlight-color:transparent;
-  min-height:56px;
+  min-height:44px;
 }
 .bnav-btn:active{transform:scale(.96)}
 .bnav-btn.active{background:transparent;border-color:transparent;color:var(--accent);box-shadow:none}
-.bnav-btn .bnav-icon{font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
-.bnav-btn .bnav-icon svg{width:23px;height:23px}
+.bnav-btn .bnav-icon{font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center}
+.bnav-btn .bnav-icon svg{width:20px;height:20px}
 .bnav-btn.spin-btn{background:transparent;border-color:transparent;color:var(--accent);box-shadow:none;flex:1.3}
 .bnav-gap{display:none}
 .bnav-btn.spin-btn .bnav-icon{font-size:20px}
@@ -400,12 +400,7 @@ body,.events-overlay,.bpanel-overlay{
   box-shadow:0 2px 8px rgba(232,232,232,.18)!important;
 }
 
-/* Save button pulse when unlocked */
-@keyframes savePulse{
-  0%,100%{box-shadow:0 2px 8px rgba(0,0,0,.3)}
-  50%{box-shadow:0 4px 18px rgba(232,232,232,.18)}
-}
-.btn-save:not(.locked){animation:savePulse 2.4s ease-in-out infinite}
+/* Save button: анимация пульсации отключена по просьбе — раньше давала белую вспышку вокруг круглой кнопки */
 
 /* Bpanel sheet smoother slide */
 .bpanel-sheet{animation:slideUp .3s cubic-bezier(.34,1.22,.64,1)}
