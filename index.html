@@ -288,7 +288,7 @@ body,.events-overlay,.bpanel-overlay{
 /* Side controls near main plate */
 .plate-main-row{display:flex;align-items:center;padding:10px 10px 4px;gap:8px;overflow:visible}
 .plate-side-controls{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;align-self:stretch;width:34px;padding-top:0;padding-bottom:0;position:relative;z-index:20;transform:translateY(-6px)}
-.plate-side-btn{background:var(--btn-neutral-bg);border:1px solid var(--btn-neutral-border);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--btn-neutral-text);padding:0;transition:transform .15s,background .15s,border-color .15s;position:relative;flex-shrink:0}
+.plate-side-btn{background:transparent;border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--btn-neutral-text);padding:0;transition:transform .15s;position:relative;flex-shrink:0}
 .plate-side-btn:active{transform:scale(.94)}
 .plate-country-btn{gap:0;position:relative}
 .plate-country-flag{font-size:16px;line-height:1;display:inline-flex;align-items:center;justify-content:center;transform:none}
@@ -323,24 +323,24 @@ body,.events-overlay,.bpanel-overlay{
 .bottom-nav{
   position:fixed;bottom:0;left:0;right:0;
   background:var(--hdr-bg);
-  padding:5px 8px 10px;
-  display:flex;gap:6px;align-items:stretch;
+  padding:10px 6px 16px;
+  display:flex;gap:0;align-items:stretch;
   z-index:500;
 }
 .bnav-btn{
   flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:1px;padding:5px 2px;
-  background:var(--btn-neutral-bg);border:1px solid var(--btn-neutral-border);border-radius:12px;
-  cursor:pointer;transition:all .2s;user-select:none;
-  font-family:'Bebas Neue';letter-spacing:.8px;font-size:8px;color:var(--btn-neutral-text);
+  gap:4px;padding:10px 4px;
+  background:transparent;border:none;border-radius:12px;
+  cursor:pointer;transition:color .2s;user-select:none;
+  font-family:'Bebas Neue';letter-spacing:.8px;font-size:10px;color:var(--btn-neutral-text);
   -webkit-tap-highlight-color:transparent;
-  min-height:42px;
+  min-height:56px;
 }
-.bnav-btn:active{transform:scale(.95)}
-.bnav-btn.active{background:var(--accent-bg-active);border-color:transparent;color:var(--bnav-active-text);box-shadow:none}
-.bnav-btn .bnav-icon{font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center}
-.bnav-btn .bnav-icon svg{width:19px;height:19px}
-.bnav-btn.spin-btn{background:var(--accent-bg-55);border-color:var(--accent-border-30);color:var(--accent);box-shadow:none;flex:1.3}
+.bnav-btn:active{transform:scale(.96)}
+.bnav-btn.active{background:transparent;border-color:transparent;color:var(--accent);box-shadow:none}
+.bnav-btn .bnav-icon{font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center}
+.bnav-btn .bnav-icon svg{width:23px;height:23px}
+.bnav-btn.spin-btn{background:transparent;border-color:transparent;color:var(--accent);box-shadow:none;flex:1.3}
 .bnav-gap{display:none}
 .bnav-btn.spin-btn .bnav-icon{font-size:20px}
 
@@ -350,7 +350,7 @@ body,.events-overlay,.bpanel-overlay{
 .events-overlay>.events-hdr{display:none!important}
 .events-hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 10px;border-bottom:1px solid var(--border);flex-shrink:0;min-height:50px;background:var(--hdr-bg)}
 .events-title{font-family:'Bebas Neue';font-size:22px;letter-spacing:3px;color:#111}
-.events-back-btn{background:rgba(0,0,0,.06);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;flex-shrink:0;padding:0}
+.events-back-btn{background:transparent;border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer;flex-shrink:0;padding:0}
 .events-body{flex:1;overflow-y:auto;padding:16px 14px 40px}
 
 /* Bottom overlay panels (inventory) */
@@ -372,7 +372,7 @@ body,.events-overlay,.bpanel-overlay{
   padding:36px 16px 14px;padding-top:16px;border-bottom:1px solid var(--border);flex-shrink:0;min-height:80px;
 }
 .bpanel-title{font-family:'Bebas Neue';font-size:18px;letter-spacing:2px;color:#111}
-.bpanel-close{background:rgba(0,0,0,.06);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:pointer;flex-shrink:0}
+.bpanel-close{background:transparent;border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:pointer;flex-shrink:0}
 .bpanel-body{overflow-y:auto;padding:14px 14px 24px;flex:1}
 
 @keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
@@ -439,7 +439,7 @@ body,.events-overlay,.bpanel-overlay{
 .settings-hdr{display:flex;align-items:center;justify-content:space-between;padding:36px 16px 14px;padding-top:16px;border-bottom:1px solid var(--border);flex-direction:column!important;cursor:grab;min-height:80px}
 .settings-hdr:active{cursor:grabbing}
 .settings-title{font-family:'Bebas Neue';font-size:17px;letter-spacing:2px;color:#111;display:flex;align-items:center}
-.settings-close{background:rgba(0,0,0,.06);border:1px solid var(--border);border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:pointer;flex-shrink:0}
+.settings-close{background:transparent;border:none;border-radius:50%;width:36px;height:36px;display:flex;align-items:center;justify-content:center;font-size:18px;color:var(--muted);cursor:pointer;flex-shrink:0}
 .settings-body{padding:8px 16px 32px}
 
 /* ── TON CONNECT ── */
