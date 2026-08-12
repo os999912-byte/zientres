@@ -287,11 +287,11 @@ body,.events-overlay,.bpanel-overlay{
 
 /* Side controls near main plate */
 .plate-main-row{display:flex;align-items:center;padding:10px 10px 4px;gap:8px;overflow:visible}
-.plate-side-controls{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;gap:10px;align-self:stretch;width:34px;padding-top:0;padding-bottom:0;position:relative;z-index:20;transform:translateY(-6px)}
+.plate-side-controls{flex-shrink:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;align-self:stretch;width:34px;padding-top:0;padding-bottom:0;position:relative;z-index:20}
 .plate-side-btn{background:transparent;border:none;border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--btn-neutral-text);padding:0;transition:transform .15s;position:relative;flex-shrink:0}
 .plate-side-btn:active{transform:scale(.94)}
 .plate-country-btn{gap:0;position:relative}
-.plate-country-flag{font-size:16px;line-height:1;display:inline-flex;align-items:center;justify-content:center;transform:none}
+.plate-country-corner-btn{position:absolute;top:-18px;right:-18px;z-index:25;width:24px;height:24px}
 .plate-country-caret{display:none}
 .country-picker-pop{display:none;position:absolute;right:0;top:36px;width:158px;max-height:150px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;background:var(--bg);border:1px solid var(--accent-border-30);border-radius:14px;box-shadow:0 12px 28px rgba(0,0,0,.18);padding:6px;z-index:1000;flex-direction:column;gap:4px;scrollbar-width:thin}
 .country-picker-pop.show{display:flex}
@@ -323,26 +323,28 @@ body,.events-overlay,.bpanel-overlay{
 .bottom-nav{
   position:fixed;bottom:0;left:0;right:0;
   background:var(--hdr-bg);
-  padding:6px 6px 10px;
-  display:flex;gap:0;align-items:stretch;
+  padding:4px 4px 8px;
+  display:flex;justify-content:center;align-items:stretch;gap:22px;
   z-index:500;
 }
 .bnav-btn{
-  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-  gap:2px;padding:6px 2px;
+  flex:0 0 auto;min-width:78px;position:relative;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:2px;padding:3px 6px;
   background:transparent;border:none;border-radius:12px;
   cursor:pointer;transition:color .2s;user-select:none;
   font-family:'Bebas Neue';letter-spacing:.8px;font-size:9px;color:var(--btn-neutral-text);
   -webkit-tap-highlight-color:transparent;
-  min-height:44px;
+  min-height:36px;
 }
 .bnav-btn:active{transform:scale(.96)}
 .bnav-btn.active{background:transparent;border-color:transparent;color:var(--accent);box-shadow:none}
-.bnav-btn .bnav-icon{font-size:17px;line-height:1;display:flex;align-items:center;justify-content:center}
-.bnav-btn .bnav-icon svg{width:20px;height:20px}
+.bnav-btn.active::after{content:'';position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:22px;height:3px;border-radius:2px;background:var(--accent)}
+.bnav-btn .bnav-icon{font-size:15px;line-height:1;display:flex;align-items:center;justify-content:center}
+.bnav-btn .bnav-icon svg{width:18px;height:18px}
 .bnav-btn.spin-btn{background:transparent;border-color:transparent;color:var(--accent);box-shadow:none;flex:1.3}
 .bnav-gap{display:none}
-.bnav-btn.spin-btn .bnav-icon{font-size:20px}
+.bnav-btn.spin-btn .bnav-icon{font-size:18px}
 
 /* ── EVENTS OVERLAY ── */
 .events-overlay{position:fixed;inset:0;top:116px;background:var(--bg);display:none;flex-direction:column;z-index:400}
@@ -634,21 +636,28 @@ body,.events-overlay,.bpanel-overlay{
 
   <!-- Номер: занимает всё свободное место -->
   <div style="flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;padding:14px">
-    <div id="plate-display" style="width:100%"></div>
+    <div style="position:relative;width:100%">
+      <div id="plate-display" style="width:100%"></div>
+      <button class="plate-side-btn plate-country-btn plate-country-corner-btn" id="plate-country-btn" onclick="toggleCountryPicker(event)" title="Страна">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="8" x2="20" y2="8"/>
+          <circle cx="9" cy="8" r="2.4" fill="var(--plate-bg,var(--bg))" stroke="currentColor" stroke-width="2"/>
+          <line x1="4" y1="16" x2="20" y2="16"/>
+          <circle cx="15" cy="16" r="2.4" fill="var(--plate-bg,var(--bg))" stroke="currentColor" stroke-width="2"/>
+        </svg>
+      </button>
+      <div class="country-picker-pop" id="country-picker-pop" onclick="event.stopPropagation()">
+        <button class="country-picker-item" data-c="RU" onclick="pickCountry('RU')"><span>🇷🇺</span><span data-i18n="country_ru">РОССИЯ</span></button>
+        <button class="country-picker-item" data-c="UA" onclick="pickCountry('UA')"><span>🇺🇦</span><span data-i18n="country_ua">УКРАИНА</span></button>
+        <button class="country-picker-item" data-c="BY" onclick="pickCountry('BY')"><span>🇧🇾</span><span data-i18n="country_by">БЕЛАРУСЬ</span></button>
+        <button class="country-picker-item" data-c="KZ" onclick="pickCountry('KZ')"><span>🇰🇿</span><span data-i18n="country_kz">КАЗАХСТАН</span></button>
+      </div>
+    </div>
     <div class="region-sub" id="reg-sub" style="margin-top:8px"></div>
   </div>
 
-  <!-- Кнопки справа: регион, страна и сохранение -->
+  <!-- Кнопки справа: регион и сохранение -->
   <div class="plate-side-controls">
-    <button class="plate-side-btn plate-country-btn" id="plate-country-btn" onclick="toggleCountryPicker(event)" title="Страна">
-      <span class="plate-country-flag" id="plate-country-flag">🇷🇺</span>
-    </button>
-    <div class="country-picker-pop" id="country-picker-pop" onclick="event.stopPropagation()">
-      <button class="country-picker-item" data-c="RU" onclick="pickCountry('RU')"><span>🇷🇺</span><span data-i18n="country_ru">РОССИЯ</span></button>
-      <button class="country-picker-item" data-c="UA" onclick="pickCountry('UA')"><span>🇺🇦</span><span data-i18n="country_ua">УКРАИНА</span></button>
-      <button class="country-picker-item" data-c="BY" onclick="pickCountry('BY')"><span>🇧🇾</span><span data-i18n="country_by">БЕЛАРУСЬ</span></button>
-      <button class="country-picker-item" data-c="KZ" onclick="pickCountry('KZ')"><span>🇰🇿</span><span data-i18n="country_kz">КАЗАХСТАН</span></button>
-    </div>
     <button class="plate-side-btn" onclick="randomAll()" title="Случайный регион">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zM7.5 18a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm4.5 4.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm0-9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
     </button>
@@ -1090,7 +1099,7 @@ function plateHTML(c, v, rc, emptyClass, forInventory=false){
       <div class="ru-divider"></div>
       <div class="ru-right">
         ${forInventory?`<span style="display:block;width:100%;height:60px;font-family:'Rajdhani',sans-serif;font-weight:700;font-size:22px;color:#111;text-align:center;line-height:60px;letter-spacing:-0.5px">${rc}</span>`:
-        `<input class="ru-reg-inp" id="reg-inp" type="text" maxlength="3" inputmode="numeric" value="${rc}" placeholder="77" oninput="onRegInput(this)" onblur="onRegBlur(this)">`}
+        `<input class="ru-reg-inp" id="reg-inp" type="text" maxlength="3" inputmode="numeric" value="${rc}" placeholder="00" oninput="onRegInput(this)" onblur="onRegBlur(this)">`}
         <div class="ru-flag-row"><span class="ru-rus-txt">RUS</span></div>
       </div>
     </div>`;
@@ -1113,7 +1122,7 @@ function plateHTML(c, v, rc, emptyClass, forInventory=false){
         <span class="by-sp">&nbsp;</span>${D('l1','by-dc letter')}${D('l2','by-dc letter')}
         <span class="by-dash">-</span>
         ${forInventory?`<span style="font-family:Rajdhani;font-weight:700;font-size:32px;color:#111;min-width:22px;text-align:center">${rc}</span>`:
-        `<input class="by-reg-inp" id="reg-inp" type="text" maxlength="1" inputmode="numeric" value="${rc}" placeholder="7" oninput="onRegInput(this)" onblur="onRegBlur(this)">`}
+        `<input class="by-reg-inp" id="reg-inp" type="text" maxlength="1" inputmode="numeric" value="${rc}" placeholder="0" oninput="onRegInput(this)" onblur="onRegBlur(this)">`}
       </div>
     </div>`;
   } else if(c==='KZ'){
@@ -1128,7 +1137,7 @@ function plateHTML(c, v, rc, emptyClass, forInventory=false){
         <div class="kz-vdiv"></div>
         <div class="kz-right">
           ${forInventory?`<span style="font-family:Rajdhani;font-weight:700;font-size:24px;color:#111;text-align:center;line-height:1">${rc}</span>`:
-          `<input class="kz-reg-inp" id="reg-inp" type="text" maxlength="2" inputmode="numeric" value="${rc}" placeholder="01" oninput="onRegInput(this)" onblur="onRegBlur(this)">`}
+          `<input class="kz-reg-inp" id="reg-inp" type="text" maxlength="2" inputmode="numeric" value="${rc}" placeholder="00" oninput="onRegInput(this)" onblur="onRegBlur(this)">`}
         </div>
       </div>
     </div>`;
@@ -1222,8 +1231,6 @@ function dropCurrentSpunPlate(opts={}){
 //  COUNTRY / VALS
 // ═══════════════════════════════════════════════════════════
 function updateCountryPickerUI(){
-  const flag=document.getElementById('plate-country-flag');
-  if(flag) flag.textContent=COUNTRY_FLAGS[country]||'🏳️';
   document.querySelectorAll('.country-picker-item').forEach(el=>el.classList.toggle('active',el.dataset.c===country));
 }
 function closeCountryPicker(){
